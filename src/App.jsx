@@ -175,6 +175,14 @@ function App() {
   const [pageNumber, setPageNumber] = useState(1)
   const [pageWidth, setPageWidth] = useState(800)
 
+  // contact form state
+  const [contactName, setContactName] = useState('')
+  const [contactEmail, setContactEmail] = useState('')
+  const [contactMessage, setContactMessage] = useState('')
+  const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState(null)
+
   useEffect(() => {
     const updateWidth = () => {
       setPageWidth(Math.min(window.innerWidth * 0.8, 800))
@@ -186,6 +194,36 @@ function App() {
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages)
+  }
+
+  // Sends directly via Formspree (no mail client). Replace YOUR_FORMSPREE_ID below.
+  const handleSendEmail = async (e) => {
+    e?.preventDefault()
+    setError(null)
+    setSending(true)
+    try {
+      const FORMSPREE_ID = 'xeopyvgy' // formspree id provided
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: contactName,
+          email: contactEmail,
+          message: contactMessage
+        })
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || 'Failed to send message')
+      setSent(true)
+      setContactName('')
+      setContactEmail('')
+      setContactMessage('')
+      setTimeout(() => setSent(false), 3000)
+    } catch (err) {
+      setError(err.message || 'Failed to send message')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -395,25 +433,88 @@ function App() {
       {/* Extracurricular Section */}
       <ExtracurricularSection />
 
-      {/* Contact Section */}
+      {/* Contact Section (replaced with inline form — sends directly via Formspree) */}
       <section id="contact" className="py-20 px-6 bg-black">
-        <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-4xl font-bold text-black mb-10">Get In Touch</h3>
-          <p className="text-xl text-white mb-12 leading-relaxed">Let's work together on your next project!</p>
-          <div className="flex justify-center space-x-8">
-            <a href="mailto:your.email@example.com" className="bg-[#BF092F] text-white px-8 py-4 rounded-lg hover:bg-white hover:text-black hover:scale-105 transition-all duration-300 font-semibold text-lg shadow-lg">
-              Email Me
-            </a>
-            <a href="#" className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-black hover:scale-105 transition-all duration-300 text-lg font-semibold shadow-lg">
-              LinkedIn
-            </a>
-          </div>
+        <div className="max-w-4xl mx-auto">
+          <h3 className="text-4xl font-bold text-white mb-6 text-center">Get In Touch</h3>
+          <p className="text-lg text-gray-300 mb-8 text-center">Write me a message below — messages are sent directly (no mail client needed).</p>
+
+          <form onSubmit={handleSendEmail} className="bg-[#F5F1DC] p-6 rounded-lg max-w-2xl mx-auto">
+            <div className="grid gap-4">
+              <input
+                type="text"
+                placeholder="Your name"
+                value={contactName}
+                onChange={(e) => setContactName(e.target.value)}
+                className="w-full p-3 rounded border border-gray-300"
+              />
+              <input
+                type="email"
+                placeholder="Your email (optional)"
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                className="w-full p-3 rounded border border-gray-300"
+              />
+              <textarea
+                placeholder="Your message"
+                value={contactMessage}
+                onChange={(e) => setContactMessage(e.target.value)}
+                className="w-full p-3 rounded border border-gray-300 h-36 resize-vertical"
+              />
+              <div className="flex items-center justify-between">
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className={`bg-[#BF092F] text-white px-6 py-3 rounded-lg transition-colors font-semibold ${sending ? 'opacity-60 cursor-not-allowed' : 'hover:bg-black'}`}
+                >
+                  {sending ? 'Sending…' : 'Send'}
+                </button>
+                <div className="text-sm text-gray-700">
+                  {sent ? <span className="text-green-600">Message sent — thank you.</span> : null}
+                  {error ? <span className="text-red-600 block">{error}</span> : null}
+                </div>
+              </div>
+
+              <div className="pt-3 text-sm text-gray-700">
+                Or email me directly:
+                <a
+                  href="mailto:mavis.chx@gmail.com"
+                  className="ml-2 text-[#BF092F] underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  mavis.chx@gmail.com
+                </a>
+              </div>
+
+              {/* External profile buttons */}
+              <div className="mt-4 flex justify-center space-x-4">
+                <a
+                  href="https://www.linkedin.com/in/mavis-hye-xuan-chia-a763a2237/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-[#0a66c2] text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors font-semibold"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://github.com/mavischx" /* replace with your GitHub profile */
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors font-semibold"
+                >
+                  GitHub
+                </a>
+              </div>
+
+            </div>
+          </form>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="py-12 px-6 text-center bg-black">
-        <p className="text-white text-lg">&copy; 2024 Your Name. All rights reserved.</p>
+        <p className="text-white text-lg">&copy; 2025 Mavis Chia Hye Xuan. All rights reserved.</p>
       </footer>
 
       {/* PDF Modal */}
