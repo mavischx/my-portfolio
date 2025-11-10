@@ -642,27 +642,8 @@ const MagicBento = ({
                         className="flex flex-col items-center text-center p-3 rounded-lg bg-[#F5F1DC] hover:bg-[#efeacf] transition-colors duration-200"
                         style={{ color: 'black' }}
                       >
-                        {skill.src ? (
-                          <>
-                            <img
-                              src={getAssetPath(skill.src)}
-                              alt={skill.title}
-                              className="w-10 h-10 mb-2 object-contain"
-                              onError={(e) => {
-                                // hide broken image and reveal fallback node (next sibling)
-                                e.currentTarget.style.display = 'none'
-                                const fb = e.currentTarget.nextElementSibling
-                                if (fb) fb.style.display = 'flex'
-                              }}
-                            />
-                            <div className="fallback w-10 h-10 mb-2 items-center justify-center bg-transparent text-black" style={{ display: 'none' }}>
-                              <div className="text-2xl font-bold">{(skill.title || '').slice(0,2)}</div>
-                            </div>
-                          </>
-                        ) : (
-                          <div className="text-3xl mb-2">•</div>
-                        )}
-                        <span className="text-sm font-semibold">{skill.title}</span>
+
+                        <span className="text-base font-semibold">{skill.title}</span>
                       </div>
                     ))}
                   </div>
@@ -687,26 +668,8 @@ const MagicBento = ({
                       className="flex flex-col items-center text-center p-3 rounded-lg bg-[#F5F1DC] hover:bg-[#efeacf] transition-colors duration-200"
                       style={{ color: 'black' }}
                     >
-                      {skill.src ? (
-                        <>
-                          <img
-                            src={getAssetPath(skill.src)}
-                            alt={skill.title}
-                            className="w-10 h-10 mb-2 object-contain"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none'
-                              const fb = e.currentTarget.nextElementSibling
-                              if (fb) fb.style.display = 'flex'
-                            }}
-                          />
-                          <div className="fallback w-10 h-10 mb-2 items-center justify-center bg-transparent text-black" style={{ display: 'none' }}>
-                            <div className="text-2xl font-bold">{(skill.title || '').slice(0,2)}</div>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="text-3xl mb-2">•</div>
-                      )}
-                      <span className="text-sm font-semibold">{skill.title}</span>
+
+                      <span className="text-base font-semibold">{skill.title}</span>
                     </div>
                   ))}
                 </div>

@@ -65,6 +65,9 @@
 .inline-block {
   display: inline-block;
 }
+.table {
+  display: table;
+}
 .h-full {
   height: 100%;
 }
@@ -95,8 +98,14 @@
 .flex-1 {
   flex: 1;
 }
+.flex-shrink {
+  flex-shrink: 1;
+}
 .flex-shrink-0 {
   flex-shrink: 0;
+}
+.border-collapse {
+  border-collapse: collapse;
 }
 .-translate-x-1\/2 {
   --tw-translate-x: calc(calc(1/2 * 100%) * -1);
@@ -266,6 +275,26 @@
 .font-\[\'Raleway\'\] {
   font-family: 'Raleway';
 }
+.text-\[clamp\(1\.6rem\,4vw\,3rem\)\] {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+}
+.text-\[clamp\(2\.5rem\,6vw\,5rem\)\] {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+.text-\[clamp\(2rem\,6vw\,4rem\)\] {
+  font-size: clamp(2rem, 6vw, 4rem);
+}
+.text-\[clamp\(3rem\,4vw\,3rem\)\] {
+  font-size: clamp(3rem, 4vw, 3rem);
+}
+.leading-\[1\.2\] {
+  --tw-leading: 1.2;
+  line-height: 1.2;
+}
+.leading-\[1\.5\] {
+  --tw-leading: 1.5;
+  line-height: 1.5;
+}
 .tracking-\[-0\.02em\] {
   --tw-tracking: -0.02em;
   letter-spacing: -0.02em;
@@ -290,6 +319,9 @@
 }
 .text-\[\#FDF0D5\]\/80 {
   color: color-mix(in oklab, #FDF0D5 80%, transparent);
+}
+.capitalize {
+  text-transform: capitalize;
 }
 .uppercase {
   text-transform: uppercase;
@@ -403,6 +435,13 @@
     }
   }
 }
+.hover\:no-underline {
+  &:hover {
+    @media (hover: hover) {
+      text-decoration-line: none;
+    }
+  }
+}
 .hover\:opacity-90 {
   &:hover {
     @media (hover: hover) {
@@ -506,6 +545,10 @@
   syntax: "<length-percentage>";
   inherits: false;
   initial-value: 100%;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
 }
 @property --tw-tracking {
   syntax: "*";
@@ -662,6 +705,7 @@
       --tw-gradient-from-position: 0%;
       --tw-gradient-via-position: 50%;
       --tw-gradient-to-position: 100%;
+      --tw-leading: initial;
       --tw-tracking: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;

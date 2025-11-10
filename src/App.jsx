@@ -11,168 +11,72 @@ import nasaAthlone3Img from './assets/nasaAthlone3.png'
 import PAM1 from './assets/PAM1.png'
 import PAM2 from './assets/PAM2.png'
 import PAM3 from './assets/PAM3.png'
+import ScrollFloat from './ScrollFloat';
 
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
 
 const ExtracurricularSection = () => {
-  const [expandedCard, setExpandedCard] = useState(null)
-  const [currentSlide, setCurrentSlide] = useState(0)
-
-  const activities = [
-    {
-      id: 1,
-      title: "Hackathon Achievements",
-      category: "Competitions",
-      period: "2023 — 2024",
-      image: "/hackathon.jpg", // Add your image path
-      shortDesc: "2nd place in XYZ Hackathon, Finalist in ABC Hackathon.",
-      fullDesc: "Won first place at XYZ Hackathon with an innovative ML-powered web application. Also achieved finalist position at ABC Hackathon, building rapid prototypes focused on machine learning and modern web technologies. These experiences enhanced my problem-solving skills and ability to work under pressure while collaborating with diverse teams.",
-      achievements: ["1st Place - XYZ Hackathon", "Finalist - ABC Hackathon", "Best Innovation Award"]
-    },
-    {
-      id: 2,
-      title: "Campus Ambassador",
-      category: "Leadership",
-      period: "2024 — Present",
-      image: "/ambassador.jpg",
-      shortDesc: "Organized workshops and mentored new students in coding.",
-      fullDesc: "Served as Campus Ambassador, organizing technical workshops, running community meetups, and mentoring new students in coding and open-source contributions. Led initiatives to bridge the gap between industry and academia, facilitating knowledge transfer and skill development among peers.",
-      achievements: ["Organized 15+ workshops", "Mentored 50+ students", "Community Growth Award"]
-    },
-    {
-      id: 3,
-      title: "Tech Events & Volunteering",
-      category: "Community",
-      period: "2022 — 2025",
-      image: "/events.jpg",
-      shortDesc: "Coordinated tech-fests and coding competitions.",
-      fullDesc: "Actively coordinated major tech-fests and coding competitions, volunteered for outreach programs, and organized onboarding events for freshmen. Played a key role in building an inclusive tech community within the campus, fostering collaboration and knowledge sharing among students.",
-      achievements: ["Coordinated 5+ major events", "200+ participants engaged", "Excellence in Service Award"]
-    },
-    {
-      id: 4,
-      title: "Open Source Contributions",
-      category: "Development",
-      period: "2023 — Present",
-      image: "/opensource.jpg",
-      shortDesc: "Contributing to various open source projects.",
-      fullDesc: "Actively contributing to open source projects, focusing on web development frameworks and developer tools. Maintained several repositories, fixed bugs, and implemented new features. Participated in Hacktoberfest and other community-driven initiatives to give back to the developer community.",
-      achievements: ["50+ contributions", "3 maintained repositories", "Hacktoberfest participant"]
-    }
-  ]
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(activities.length / 3))
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + Math.ceil(activities.length / 3)) % Math.ceil(activities.length / 3))
+  const achievements = {
+    competitions: [
+      { name: "NASA Space Apps Challenge 2025 - 2nd Place", link: "/certs/nasa-2025.pdf" },
+      { name: "NASA Space Apps Challenge 2024 - Participant", link: "/certs/nasa-2024.pdf" },
+      { name: "NASA Space Apps Challenge 2023 - Participant", link: "/certs/nasa-2023.pdf" },
+      { name: "Cisco Jam 2024 - Winner", link: "/certs/nasa-2023.pdf" }
+    ],
+    certifications: [
+      { name: "Oracle 1Z0-811 Java Certification", link: "/certs/oracle-java.pdf" },
+      { name: "Codeium AI Coding Assistant Certification", link: "/certs/codeium.pdf" }
+    ],
+    leadership: [
+      { name: "Ireland International Ambassador (2023-24)", link: "/certs/ireland-ambassador.pdf" },
+      { name: "TUS Asian Society Vice President (2023-24)", link: "/certs/tus-society.pdf" }
+    ],
+    academic: [
+      { name: "Dean's Honours List 2023/24", link: "/certs/deans-honours.pdf" },
+      { name: "Dean's Honours List 2024/25", link: "/certs/deans-honours.pdf" }
+    ],
+    sports: [
+      { name: "TUS Badminton College Team (2022-2024)", link: "/certs/badminton-team.pdf" }
+    ]
   }
 
   return (
     <section className="py-16 px-6 bg-[#F5F1DC]">
       <div className="max-w-6xl mx-auto">
-        <h3 className="text-4xl font-bold text-black mb-16 text-center">Extracurricular Activities</h3>
+        <ScrollFloat
+          containerClassName="mb-16 text-center"
+          textClassName="text-6xl font-black text-black"
+        >
+          Achievements & Activities
+        </ScrollFloat>
         
-        {/* Swipe Navigation */}
-        <div className="flex justify-between items-center mb-8">
-          <button 
-            onClick={prevSlide}
-            className="bg-black text-white p-3 rounded-full hover:bg-[#BF092F] transition-colors"
-          >
-            ←
-          </button>
-          <div className="flex space-x-2">
-            {Array.from({ length: Math.ceil(activities.length / 3) }).map((_, index) => (
-              <div 
-                key={index}
-                className={`w-3 h-3 rounded-full ${
-                  index === currentSlide ? 'bg-[#BF092F]' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-          <button 
-            onClick={nextSlide}
-            className="bg-black text-white p-3 rounded-full hover:bg-[#BF092F] transition-colors"
-          >
-            →
-          </button>
-        </div>
-
-        {/* Cards Grid */}
-        <div className="overflow-hidden">
-          <div 
-            className="flex transition-transform duration-300 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {Array.from({ length: Math.ceil(activities.length / 3) }).map((_, slideIndex) => (
-              <div key={slideIndex} className="w-full flex-shrink-0">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {activities.slice(slideIndex * 3, slideIndex * 3 + 3).map((activity) => (
-                    <div key={activity.id} className="relative">
-                      <div 
-                        className={`bg-black rounded-lg shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
-                          expandedCard === activity.id ? 'transform scale-105' : ''
-                        }`}
-                        onClick={() => setExpandedCard(expandedCard === activity.id ? null : activity.id)}
-                      >
-                        {/* Image */}
-                        <div className="h-48 bg-gray-700 relative overflow-hidden">
-                          {activity.image && (
-                            <img 
-                              src={activity.image} 
-                              alt={activity.title}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.target.style.display = 'none'
-                              }}
-                            />
-                          )}
-                          <div className="absolute top-4 left-4">
-                            <span className="bg-[#BF092F] text-white px-3 py-1 rounded-full text-sm font-semibold">
-                              {activity.category}
-                            </span>
-                          </div>
-                        </div>
-                        
-                        {/* Content */}
-                        <div className="p-6">
-                          <h4 className="text-xl font-semibold text-white mb-2">{activity.title}</h4>
-                          <p className="text-[#BF092F] font-medium mb-3">{activity.period}</p>
-                          <p className="text-gray-300 mb-4">
-                            {expandedCard === activity.id ? activity.fullDesc : activity.shortDesc}
-                          </p>
-                          
-                          {expandedCard === activity.id && (
-                            <div className="mt-4">
-                              <h5 className="text-white font-semibold mb-2">Key Achievements:</h5>
-                              <ul className="space-y-1">
-                                {activity.achievements.map((achievement, index) => (
-                                  <li key={index} className="text-gray-300 text-sm flex items-center">
-                                    <span className="text-[#BF092F] mr-2">•</span>
-                                    {achievement}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                          
-                          <div className="mt-4 text-center">
-                            <span className="text-[#BF092F] text-sm font-medium">
-                              {expandedCard === activity.id ? 'Click to collapse' : 'Click to expand'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {Object.entries(achievements).map(([category, items]) => (
+            <div key={category} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h4 className="text-2xl font-bold text-black mb-4 capitalize">
+                {category === 'certifications' ? 'Certifications' : 
+                 category === 'leadership' ? 'Leadership' :
+                 category === 'academic' ? 'Academic Excellence' :
+                 category === 'sports' ? 'Sports' : 'Competitions'}
+              </h4>
+              <ul className="space-y-3">
+                {items.map((item, index) => (
+                  <li key={index}>
+                    <a 
+                      href={item.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium"
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -248,19 +152,25 @@ const ProjectsSection = () => {
   return (
     <section id="projects" className="py-16 px-6 bg-[#BF092F]">
       <div className="max-w-7xl mx-auto">
-        <h3 className="text-4xl font-bold text-white mb-16 text-center">Projects</h3>
+        {/* <h3 className="text-4xl font-bold text-white mb-16 text-center">Projects</h3> */}
+                  <ScrollFloat
+            containerClassName="mb-8 text-center"
+            textClassName="text-4xl font-extrabold text-white"
+          >
+            Projects
+          </ScrollFloat>
         <div className="space-y-8">
           {resolvedProjects.map((project) => {
             const imgs = project.images || [];
             const idx = currentImageIndex[project.id] || 0;
             return (
-              <div key={project.id} className="bg-black rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div key={project.id} className="project-card bg-black rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div className="flex flex-col md:flex-row md:min-h-80">
                   <div className="md:w-2/5 h-64 md:h-auto md:min-h-full bg-gray-700 relative overflow-hidden flex-shrink-0">
                     {imgs[idx] ? (
                       <img
                         src={imgs[idx]}
-                        alt={`${project.title} ${idx+1}`}
+                        alt={`${project.title} ${idx + 1}`}
                         className="w-full h-full object-cover"
                         onError={(e) => { e.currentTarget.style.display = 'none' }}
                       />
@@ -353,40 +263,7 @@ function App() {
     return () => window.removeEventListener('resize', updateWidth)
   }, [])
 
-  // Ensure Tailwind & font are loaded at runtime and provide a small fallback stylesheet
-  useEffect(() => {
-    // inject Tailwind CDN script
-    if (typeof document !== 'undefined' && !document.getElementById('tailwind-cdn')) {
-      const s = document.createElement('script')
-      s.id = 'tailwind-cdn'
-      s.src = 'https://cdn.tailwindcss.com'
-      s.async = true
-      document.head.appendChild(s)
-    }
 
-    // inject Google Font (Raleway)
-    if (typeof document !== 'undefined' && !document.getElementById('google-font-raleway')) {
-      const l = document.createElement('link')
-      l.id = 'google-font-raleway'
-      l.rel = 'stylesheet'
-      l.href = 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;900&display=swap'
-      document.head.appendChild(l)
-    }
-
-    // small fallback base styles in case CDN is delayed
-    if (typeof document !== 'undefined' && !document.getElementById('site-base-styles')) {
-      const style = document.createElement('style')
-      style.id = 'site-base-styles'
-      style.innerHTML = `
-        html,body,#root { height: 100%; }
-        body { font-family: 'Raleway', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background-color: #F5F1DC; }
-        .text-black { color: #000 !important; }
-        .bg-[#F5F1DC] { background-color: #F5F1DC !important; }
-        .bg-black { background-color: #000 !important; }
-      `
-      document.head.appendChild(style)
-    }
-  }, [])
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages)
@@ -422,6 +299,76 @@ function App() {
     }
   }
 
+  // Timeline animation
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    const styleId = 'timeline-reveal-style';
+    if (!document.getElementById(styleId)) {
+      const s = document.createElement('style');
+      s.id = styleId;
+      s.textContent = `
+        .timeline-item { 
+          opacity: 0; 
+          transform: translateY(30px) scale(0.98); 
+          transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.9, 0.2, 1); 
+        }
+        .work-card, .project-card { 
+          opacity: 0; 
+          transform: translateY(50px) scale(0.95); 
+          transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+        .timeline-item.from-left { transform: translateX(-60px) translateY(18px) scale(0.98); }
+        .timeline-item.from-right { transform: translateX(60px) translateY(18px) scale(0.98); }
+        .timeline-item.is-visible, .work-card.is-visible, .project-card.is-visible { 
+          opacity: 1; 
+          transform: translateX(0) translateY(0) scale(1); 
+        }
+      `;
+      document.head.appendChild(s);
+    }
+
+    const timelineItems = Array.from(document.querySelectorAll('.timeline-item'));
+    const workCards = Array.from(document.querySelectorAll('.work-card'));
+    const projectCards = Array.from(document.querySelectorAll('.project-card'));
+    const allItems = [...timelineItems, ...workCards, ...projectCards];
+    
+    if (!allItems.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          
+          if (el.classList.contains('timeline-item')) {
+            const index = Math.max(0, timelineItems.indexOf(el));
+            el.classList.add(index % 2 === 0 ? 'from-left' : 'from-right');
+            const delay = Math.min(index, 10) * 120;
+            setTimeout(() => el.classList.add('is-visible'), delay);
+          } else if (el.classList.contains('work-card')) {
+            const index = Math.max(0, workCards.indexOf(el));
+            const delay = index * 400;
+            setTimeout(() => el.classList.add('is-visible'), delay);
+          } else if (el.classList.contains('project-card')) {
+            const index = Math.max(0, projectCards.indexOf(el));
+            const delay = index * 500;
+            setTimeout(() => el.classList.add('is-visible'), delay);
+          }
+          
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.18 });
+
+    allItems.forEach(i => observer.observe(i));
+
+    return () => {
+      observer.disconnect();
+      const el = document.getElementById(styleId);
+      if (el) el.remove();
+    };
+  }, []);
+
   return (
     <div className="bg-[#F5F1DC] min-h-screen font-['Raleway']">
       {/* Header */}
@@ -435,99 +382,111 @@ function App() {
       </header>
 
       {/* Hero & About Section */}
-        <section id="about" className="text-center py-20 px-6">
-          <SplitText
-            text="Hello, I'm Mavis"
-            className="text-5xl md:text-9xl font-bold text-black mb-4 mt-20"
-            delay={80}
-            duration={0.8}
-            ease="power3.out"
-            splitType="chars"
-            from={{ opacity: 0, y: 50 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0.1}
-            rootMargin="-50px"
-            textAlign="center"
-            tag="h2"
-          />
-          <p className="text-2xl text-gray-600 mb-12">Full Stack Developer & Designer</p>
-          <div className="max-w-4xl mx-auto mb-16">
-            <h3 className="text-4xl font-bold text-black mb-10">About Me</h3>
-            <p className="text-xl text-gray-700 text-center leading-relaxed">
-          I'm an international student from Malaysia doing my Bachelor's degree in Software Design based in Athlone. I specialize in full-stack web development . Beyond coding, I enjoy going outoors, baking and traveling.
-            </p>
-          </div>
-          
-          {/* Resume Buttons */}
+      <section id="about" className="text-center py-20 px-6">
+        <SplitText
+          text="Welcome"
+          className="text-5xl md:text-9xl font-bold text-black mb-4 mt-20"
+          delay={80}
+          duration={0.8}
+          ease="power3.out"
+          splitType="chars"
+          from={{ opacity: 0, y: 50 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0.1}
+          rootMargin="-50px"
+          textAlign="center"
+          tag="h2"
+        />
+        <p className="text-2xl text-gray-600 mb-12">Full Stack Developer & Designer</p>
+        <div className="max-w-4xl mx-auto mb-16">
+          {/* <h3 className="text-4xl font-bold text-black mb-10">About Me</h3> */}
+          <p className="text-xl text-gray-700 text-center leading-relaxed">
+            I'm an international student from Malaysia doing my Bachelor's degree in Software Design based in Athlone. I specialize in full-stack web development . Beyond coding, I enjoy going outoors, baking and traveling.
+          </p>
+        </div>
+
+        {/* Resume Buttons */}
         <div className="flex justify-center space-x-4">
           <a href="/assets/MavisHyeXuanChia_CV2025.pdf" download className="bg-[#BF092F] text-white px-8 py-4 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg text-lg font-semibold">
             <span>Download CV</span>
           </a>
-          <button onClick={() => setShowPDF(true)} className="border-2 border-[#BF092F] text-[#BF092F] px-8 py-4 rounded-lg hover:bg-[#BF092F] hover:text-white hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg text-lg font-semibold">
-            <span>View CV</span>
-          </button>
+          <a href="https://www.linkedin.com/in/mavis-hye-xuan-chia-a763a2237/" target="_blank" rel="noopener noreferrer" className="bg-[#0a66c2] text-white px-8 py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg text-lg font-semibold">
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://github.com/mavischx" target="_blank" rel="noopener noreferrer" className="bg-black text-white px-8 py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg text-lg font-semibold">
+            <span>GitHub</span>
+          </a>
         </div>
       </section>
 
       {/* Timeline Section */}
       <section className="py-8 px-6 bg-[#BF092F]">
         <div className="max-w-5xl mx-auto">
-          <h3 className="text-4xl font-bold text-white mb-8 text-center">My Journey</h3>
+          <ScrollFloat
+            containerClassName="mb-8 text-center"
+            textClassName="text-4xl font-extrabold text-white"
+          >
+            My Journey
+          </ScrollFloat>
           <div className="relative">
             {/* Vertical Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-white" style={{height: 'calc(100% - 3rem)'}}></div>
-            
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-white" style={{ height: 'calc(100% - 3rem)' }}></div>
+
             {/* Timeline Items */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Start College */}
-              <div className="flex items-center">
+              <div className="flex items-center timeline-item">
                 <div className="w-1/2 pr-8 flex justify-end">
-                  <div className="bg-white p-4 rounded-lg shadow-lg max-w-l mx-2 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                  <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                     <h4 className="text-2xl font-bold text-black mb-2">Started University</h4>
-                    <p className="text-[#BF092F] font-semibold mb-3 text-base">2022 - Present</p>
                     <p className="text-gray-700 text-lg">Bachelor student in BSC Software Design with AI and Cloud computing in Technological University of the Shannon, Athlone.
-                    <br/>Coursework includes Software and Web development, Databases, REST Api, Agile methodologies, Machine Learning.
+                      <br />Coursework includes Software and Web development, Databases, REST Api, Agile methodologies, Machine Learning.
                     </p>
                   </div>
                 </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
-                <div className="w-1/2 pl-8"></div>
+                <div className="w-1/2 pl-8 flex items-center">
+                  <div className="text-white text-xl font-bold">2022 - Present</div>
+                </div>
               </div>
 
               {/* Summer Intern */}
-              <div className="flex items-center">
-                <div className="w-1/2 pr-8"></div>
+              <div className="flex items-center timeline-item">
+                <div className="w-1/2 pr-8 flex justify-end items-center">
+                  <div className="text-white text-xl font-bold">June 2024 - August 2024</div>
+                </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
                 <div className="w-1/2 pl-8">
-                  <div className="bg-white p-4 rounded-lg shadow-lg max-w-l mx-2 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                  <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                     <h4 className="text-2xl font-bold text-black mb-2">Summer Internship</h4>
-                    <p className="text-[#BF092F] font-semibold mb-3 text-base">June 2024 - August 2024</p>
                     <p className="text-gray-700 text-lg">Summer intern in Ericsson, Athlone</p>
                   </div>
                 </div>
               </div>
 
               {/* Official Intern */}
-              <div className="flex items-center">
+              <div className="flex items-center timeline-item">
                 <div className="w-1/2 pr-8 flex justify-end">
-                  <div className="bg-white p-4 rounded-lg shadow-lg max-w-l mx-2 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <h4 className="text-2xl font-bold text-black mb-2">Official Internship</h4>
-                    <p className="text-[#BF092F] font-semibold mb-3 text-base">January 2025 - August 2025</p>
+                  <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 className="text-2xl font-bold text-black mb-2">Internship</h4>
                     <p className="text-gray-700 text-lg">Full-time internship position in Ericsson, Athlone</p>
                   </div>
                 </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
-                <div className="w-1/2 pl-8"></div>
+                <div className="w-1/2 pl-8 flex items-center">
+                  <div className="text-white text-xl font-bold">January 2025 - August 2025</div>
+                </div>
               </div>
 
               {/* Graduation */}
-              <div className="flex items-center">
-                <div className="w-1/2 pr-8"></div>
+              <div className="flex items-center timeline-item">
+                <div className="w-1/2 pr-8 flex justify-end items-center">
+                  <div className="text-white text-xl font-bold">2026</div>
+                </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
                 <div className="w-1/2 pl-8">
-                  <div className="bg-white p-4 rounded-lg shadow-lg max-w-l mx-2 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-l-4 border-black">
+                  <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-l-4 border-black">
                     <h4 className="text-2xl font-bold text-black mb-2">Graduation</h4>
-                    <p className="text-[#BF092F] font-semibold mb-3 text-base">2026</p>
                     <p className="text-gray-700 text-lg">Bachelor's degree completion.</p>
                   </div>
                 </div>
@@ -540,7 +499,14 @@ function App() {
       {/* Work Experience Section (reverted section bg, cards switched to white) */}
       <section className="py-16 px-6 bg-[#F5F1DC]">
         <div className="max-w-6xl mx-auto">
-          <h3 className="text-4xl font-bold text-black mb-16 text-center">Work Experience</h3>
+          {/* <h3 className="text-4xl font-bold text-black mb-16 text-center">Work Experience</h3> */}
+          <ScrollFloat
+            containerClassName="mb-8 text-center"
+            textClassName="text-4xl font-extrabold text-black"
+          >
+            Work Experience
+          </ScrollFloat>
+
           <div className="space-y-8">
             {[
               {
@@ -565,7 +531,7 @@ function App() {
                 ]
               }
             ].map((job, index) => (
-              <div key={index} className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div key={index} className="work-card bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start">
                   <div className="flex-1">
                     <h4 className="text-2xl font-semibold text-black mb-2">{job.title}</h4>
@@ -589,7 +555,13 @@ function App() {
       {/* Skills Section */}
       <section className="py-16 px-6 bg-[#F5F1DC]">
         <div className="max-w-6xl mx-auto">
-          <h3 className="text-4xl font-bold text-black mb-16 text-center">Skills & Technologies</h3>
+          {/* <h3 className="text-4xl font-bold text-black mb-16 text-center">Skills & Technologies</h3> */}
+          <ScrollFloat
+            containerClassName="mb-8 text-center"
+            textClassName="text-4xl font-extrabold text-black"
+          >
+            Skills & Technologies
+          </ScrollFloat>
           <MagicBento
             textAutoHide={true}
             enableStars={true}
@@ -614,7 +586,13 @@ function App() {
       {/* Contact Section (replaced with inline form — sends directly via Formspree) */}
       <section id="contact" className="py-20 px-6 bg-black">
         <div className="max-w-4xl mx-auto">
-          <h3 className="text-4xl font-bold text-white mb-6 text-center">Get In Touch</h3>
+          {/* <h3 className="text-4xl font-bold text-white mb-6 text-center">Get In Touch</h3> */}
+                    <ScrollFloat
+            containerClassName="mb-8 text-center"
+            textClassName="text-4xl font-extrabold text-white"
+          >
+            Get In Touch
+          </ScrollFloat>
           <p className="text-lg text-gray-300 mb-8 text-center">Write me a message below.</p>
 
           <form onSubmit={handleSendEmail} className="bg-[#F5F1DC] p-6 rounded-lg max-w-2xl mx-auto">
@@ -701,7 +679,7 @@ function App() {
           <div className="bg-white rounded-lg w-full max-w-4xl h-full max-h-[90vh] flex flex-col">
             <div className="flex justify-between items-center p-4 border-b">
               <h3 className="text-xl font-semibold text-black">Resume</h3>
-              <button 
+              <button
                 onClick={() => setShowPDF(false)}
                 className="text-gray-500 hover:text-black text-2xl font-bold"
               >
@@ -715,8 +693,8 @@ function App() {
                   onLoadSuccess={onDocumentLoadSuccess}
                   className="max-w-full"
                 >
-                  <Page 
-                    pageNumber={pageNumber} 
+                  <Page
+                    pageNumber={pageNumber}
                     className="max-w-full"
                     width={pageWidth}
                   />
