@@ -2,8 +2,16 @@ import SplitText from './SplitText.jsx'
 import MagicBento from './MagicBento'
 import { useState, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
-import knowYourCountriesImg from './assets/knowYourCountries.png'
-import nasaAthloneImg from './assets/nasaAthlone.png'
+import knowYourCountries2Img from './assets/knowYourCountries2.png'
+import knowYourCountries3Img from './assets/knowYourCountries3.png'
+import knowYourCountries4Img from './assets/knowYourCountries4.png'
+import nasaAthlone1Img from './assets/nasaAthlone1.png'
+import nasaAthlone2Img from './assets/nasaAthlone2.png'
+import nasaAthlone3Img from './assets/nasaAthlone3.png'
+import PAM1 from './assets/PAM1.png'
+import PAM2 from './assets/PAM2.png'
+import PAM3 from './assets/PAM3.png'
+
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
@@ -172,14 +180,14 @@ const ExtracurricularSection = () => {
 }
 
 const ProjectsSection = () => {
-  const [expandedProject, setExpandedProject] = useState(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState({})
 
   const projects = [
     {
       id: 1,
       title: "Know Your Countries",
       category: "Web Development",
-      image: knowYourCountriesImg,
+      images: [knowYourCountries2Img, knowYourCountries3Img, knowYourCountries4Img],
       shortDesc: "HTML, CSS, JavaScript",
       fullDesc: "'Know Your Countries' uses RestCountries API to provide info on countries. Users can input a country name, filter by region, and enjoy a flag-guessing mini-game. Seamlessly blending education and interactivity, the site offers a user-friendly exploration of global data.",
       achievements: ["Interactive flag guessing game", "RestCountries API integration", "Region filtering system"],
@@ -189,7 +197,7 @@ const ProjectsSection = () => {
       id: 2,
       title: "NASA Space Apps Challenge 2024",
       category: "Frontend Web Development",
-      image: nasaAthloneImg,
+      images: [nasaAthlone1Img, nasaAthlone2Img, nasaAthlone3Img],
       shortDesc: "React, Tailwind CSS, Vercel",
       fullDesc: "Worked on frontend development with a global team for the official website for the NASA Space Apps Challenge 2024 in Athlone. The site provides event details, registration information, and resources for participants. Built using React and styled with Tailwind CSS, it ensures a responsive and engaging user experience.",
       achievements: ["Collaborated with international team", "Responsive design implementation", "Git workflow"],
@@ -197,75 +205,125 @@ const ProjectsSection = () => {
     },
     {
       id: 3,
-      title: "Portfolio Website",
-      category: "Full Stack Development",
-      image: "/assets/portfolio.jpg",
-      shortDesc: "React, Tailwind CSS, Formspree",
-      fullDesc: "Personal portfolio website showcasing my projects, skills, and experience. Features animated text, interactive components, PDF viewer for resume, and contact form integration. Built with React and styled with Tailwind CSS for a modern, responsive design.",
-      achievements: ["Animated UI components", "PDF resume viewer", "Contact form integration"],
-      githubLink: "https://github.com/mavischx/my-portfolio"
+      title: "Pollen Alert Map",
+      category: "Web Development, Machine Learning, Open Data",
+      images: [PAM2, PAM3, PAM1],
+      shortDesc: "JavaScript, Python, Google APIs",
+      fullDesc: "P.A.M is a pollen alert map that visualizes pollen forecasts to help individuals suffering from pollen allergies. Research shows that pollen seasons are lengthening due to climate change, increasing allergy risks. Features real-time pollen forecasting up to 5 days, interactive heatmap visualization, pollen alerts with health advice, and extended forecasts up to 12 periods using machine learning models trained on NASA MODIS NDVI data.",
+      achievements: ["Real-time pollen forecasting", "Interactive heatmap visualization", "Machine learning predictions"],
+      githubLink: "https://tusmm-my.sharepoint.com/:f:/g/personal/a00303784_student_tus_ie/EssSzmyR9I9Ok47ofWcmiqoBV4dABGY-5zlAH3bMIAQNAQ?e=fbB2ol"
     },
   ];
 
+  // Resolve images to absolute paths (supports imported modules and public folder strings)
+  const resolvedProjects = projects.map(p => {
+    const resolved = (p.images || []).map(img =>
+      typeof img === 'string'
+        ? img.startsWith('/') ? img : `/${img}`
+        : img // assume imported image module
+    );
+    return { ...p, images: resolved };
+  });
+
+  const nextImage = (projectId, e) => {
+    e.stopPropagation();
+    const project = resolvedProjects.find(p => p.id === projectId);
+    const len = (project?.images || []).length || 1;
+    setCurrentImageIndex(prev => ({
+      ...prev,
+      [projectId]: ((prev[projectId] || 0) + 1) % len
+    }));
+  }
+
+  const prevImage = (projectId, e) => {
+    e.stopPropagation();
+    const project = resolvedProjects.find(p => p.id === projectId);
+    const len = (project?.images || []).length || 1;
+    setCurrentImageIndex(prev => ({
+      ...prev,
+      [projectId]: ((prev[projectId] || 0) - 1 + len) % len
+    }));
+  }
+
   return (
     <section id="projects" className="py-16 px-6 bg-[#BF092F]">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <h3 className="text-4xl font-bold text-white mb-16 text-center">Projects</h3>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <div key={project.id} className="relative">
-              <div 
-                className={`bg-black rounded-lg shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col ${
-                  expandedProject === project.id ? 'col-span-full' : ''
-                }`}
-                onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)}
-              >
-                <div className="h-48 bg-gray-700 relative overflow-hidden flex-shrink-0">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.style.display = 'none'
-                    }}
-                  />
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h4 className="text-xl font-semibold text-white mb-2">{project.title}</h4>
-                  <p className="text-[#BF092F] font-medium mb-3">{project.category}</p>
-                  <p className="text-gray-300 mb-4 text-sm flex-1">
-                    {expandedProject === project.id ? project.fullDesc : project.shortDesc}
-                  </p>
-                  
-                  {expandedProject === project.id && project.achievements && (
-                    <div className="mt-4">
-                      <h5 className="text-white font-semibold mb-2">Key Features:</h5>
-                      <ul className="space-y-1">
-                        {project.achievements.map((achievement, index) => (
-                          <li key={index} className="text-gray-300 text-sm flex items-center">
-                            <span className="text-[#BF092F] mr-2">•</span>
-                            {achievement}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  <div className="mt-4">
-                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-[#BF092F] underline hover:text-white transition-colors">
-                      Try it out
-                    </a>
+        <div className="space-y-8">
+          {resolvedProjects.map((project) => {
+            const imgs = project.images || [];
+            const idx = currentImageIndex[project.id] || 0;
+            return (
+              <div key={project.id} className="bg-black rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <div className="flex flex-col md:flex-row md:min-h-80">
+                  <div className="md:w-2/5 h-64 md:h-auto md:min-h-full bg-gray-700 relative overflow-hidden flex-shrink-0">
+                    {imgs[idx] ? (
+                      <img
+                        src={imgs[idx]}
+                        alt={`${project.title} ${idx+1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.currentTarget.style.display = 'none' }}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-800 flex items-center justify-center text-gray-400">No image</div>
+                    )}
+
+                    {imgs.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => prevImage(project.id, e)}
+                          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-75 transition-all"
+                        >
+                          ‹
+                        </button>
+                        <button
+                          onClick={(e) => nextImage(project.id, e)}
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-75 transition-all"
+                        >
+                          ›
+                        </button>
+                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                          {imgs.map((_, i) => (
+                            <div
+                              key={i}
+                              className={`w-2 h-2 rounded-full ${i === idx ? 'bg-white' : 'bg-white bg-opacity-50'}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
-                  
-                  <div className="mt-4 text-center">
-                    <span className="text-[#BF092F] text-sm font-medium">
-                      {expandedProject === project.id ? 'Click to collapse' : 'Click to expand'}
-                    </span>
+                  <div className="md:w-3/5 p-6 flex flex-col justify-between">
+                    <div>
+                      <h4 className="text-2xl font-semibold text-white mb-2">{project.title}</h4>
+                      <p className="text-[#BF092F] font-medium mb-3">{project.category}</p>
+                      <p className="text-gray-300 mb-4">{project.fullDesc}</p>
+
+                      {project.achievements?.length > 0 && (
+                        <div className="mb-4">
+                          <h5 className="text-white font-semibold mb-2">Key Features:</h5>
+                          <ul className="space-y-1">
+                            {project.achievements.map((achievement, index) => (
+                              <li key={index} className="text-gray-300 text-sm flex items-center">
+                                <span className="text-[#BF092F] mr-2">•</span>
+                                {achievement}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-[#BF092F] underline hover:text-white transition-colors">
+                        Check it out
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
@@ -293,6 +351,41 @@ function App() {
     updateWidth()
     window.addEventListener('resize', updateWidth)
     return () => window.removeEventListener('resize', updateWidth)
+  }, [])
+
+  // Ensure Tailwind & font are loaded at runtime and provide a small fallback stylesheet
+  useEffect(() => {
+    // inject Tailwind CDN script
+    if (typeof document !== 'undefined' && !document.getElementById('tailwind-cdn')) {
+      const s = document.createElement('script')
+      s.id = 'tailwind-cdn'
+      s.src = 'https://cdn.tailwindcss.com'
+      s.async = true
+      document.head.appendChild(s)
+    }
+
+    // inject Google Font (Raleway)
+    if (typeof document !== 'undefined' && !document.getElementById('google-font-raleway')) {
+      const l = document.createElement('link')
+      l.id = 'google-font-raleway'
+      l.rel = 'stylesheet'
+      l.href = 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;900&display=swap'
+      document.head.appendChild(l)
+    }
+
+    // small fallback base styles in case CDN is delayed
+    if (typeof document !== 'undefined' && !document.getElementById('site-base-styles')) {
+      const style = document.createElement('style')
+      style.id = 'site-base-styles'
+      style.innerHTML = `
+        html,body,#root { height: 100%; }
+        body { font-family: 'Raleway', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background-color: #F5F1DC; }
+        .text-black { color: #000 !important; }
+        .bg-[#F5F1DC] { background-color: #F5F1DC !important; }
+        .bg-black { background-color: #000 !important; }
+      `
+      document.head.appendChild(style)
+    }
   }, [])
 
   function onDocumentLoadSuccess({ numPages }) {
@@ -453,7 +546,7 @@ function App() {
               {
                 title: "Software Development Intern",
                 company: "Ericsson",
-                period: "Januuary 2025 – August 2025",
+                period: "January 2025 – August 2025",
                 descriptionLines: [
                   "Transitioned a legacy monolithic system to a microservice architecture, accelerating feature rollout by ~85% using Python, TypeScript, Redis, and Docker.",
                   "Automated software modelling and document generation pipelines (docxtpl, StringTemplate, custom Python workflows), reducing document processing time from 27 days to 3 days.",
