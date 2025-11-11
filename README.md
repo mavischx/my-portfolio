@@ -1,3 +1,4 @@
 # This is my digital portfolio
-* still wip
-https://vercel.com/mavischx-gmailcoms-projects/my-portfolio  
+* still wip!  
+
+https://my-portfolio-six-olive-34.vercel.app/
