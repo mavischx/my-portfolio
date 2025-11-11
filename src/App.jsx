@@ -1,5 +1,4 @@
 import SplitText from './SplitText.jsx'
-import MagicBento from './MagicBento'
 import { useState, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import knowYourCountries2Img from './assets/knowYourCountries2.png'
@@ -12,7 +11,23 @@ import PAM1 from './assets/PAM1.png'
 import PAM2 from './assets/PAM2.png'
 import PAM3 from './assets/PAM3.png'
 import ScrollFloat from './ScrollFloat';
-
+import reactLogo from './assets/react.svg'
+import jsLogo from './assets/javascript.svg'
+import tsLogo from './assets/typescript.svg'
+import nodeLogo from './assets/nodejs.svg'
+import pythonLogo from './assets/python.svg'
+import javaLogo from './assets/java.svg'
+import htmlLogo from './assets/html.svg'
+import cssLogo from './assets/css.svg'
+import bootstrapLogo from './assets/boostrap.svg'
+import flaskLogo from './assets/flask.svg'
+import springLogo from './assets/spring.svg'
+import mysqlLogo from './assets/mysql.svg'
+import postgresLogo from './assets/postgresql.svg'
+import mongoLogo from './assets/mongodb.svg'
+import redisLogo from './assets/redis.svg'
+import dockerLogo from './assets/docker.svg'
+import gitLogo from './assets/git.svg'
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
@@ -43,19 +58,25 @@ const ExtracurricularSection = () => {
   }
 
   return (
-    <section className="py-16 px-6 bg-[#F5F1DC]">
+    <section className="py-16 px-4 sm:px-6 bg-[#F5F1DC]">
       <div className="max-w-6xl mx-auto">
         <ScrollFloat
-          containerClassName="mb-16 text-center"
-          textClassName="text-6xl font-black text-black"
+          containerClassName="mb-8 text-center"
+          textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-black"
         >
           Achievements & Activities
         </ScrollFloat>
+                        {/* <ScrollFloat
+            containerClassName="mb-8 text-center"
+            textClassName="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white"
+          >
+            Get In Touch
+          </ScrollFloat> */}
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Object.entries(achievements).map(([category, items]) => (
             <div key={category} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <h4 className="text-2xl font-bold text-black mb-4 capitalize">
+              <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 capitalize">
                 {category === 'certifications' ? 'Certifications' : 
                  category === 'leadership' ? 'Leadership' :
                  category === 'academic' ? 'Academic Excellence' :
@@ -150,12 +171,12 @@ const ProjectsSection = () => {
   }
 
   return (
-    <section id="projects" className="py-16 px-6 bg-[#BF092F]">
+    <section id="projects" className="py-16 px-4 sm:px-6 bg-[#BF092F]">
       <div className="max-w-7xl mx-auto">
         {/* <h3 className="text-4xl font-bold text-white mb-16 text-center">Projects</h3> */}
                   <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-4xl font-extrabold text-white"
+            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
           >
             Projects
           </ScrollFloat>
@@ -203,18 +224,19 @@ const ProjectsSection = () => {
                       </>
                     )}
                   </div>
-                  <div className="md:w-3/5 p-6 flex flex-col justify-between">
+                  <div className="md:w-3/5 p-4 sm:p-6 flex flex-col justify-between">
                     <div>
-                      <h4 className="text-2xl font-semibold text-white mb-2">{project.title}</h4>
-                      <p className="text-[#BF092F] font-medium mb-3">{project.category}</p>
-                      <p className="text-gray-300 mb-4">{project.fullDesc}</p>
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-white mb-2">{project.title}</h4>
+                      <p className="text-[#BF092F] font-medium mb-3 text-sm sm:text-base">{project.category}</p>
+                      <p className="text-gray-300 mb-4 text-sm sm:text-base hidden sm:block">{project.fullDesc}</p>
+                      <p className="text-gray-300 mb-4 text-sm sm:hidden">{project.shortDesc}</p>
 
                       {project.achievements?.length > 0 && (
-                        <div className="mb-4">
-                          <h5 className="text-white font-semibold mb-2">Key Features:</h5>
+                        <div className="mb-4 hidden sm:block">
+                          <h5 className="text-white font-semibold mb-2 text-sm sm:text-base">Key Features:</h5>
                           <ul className="space-y-1">
                             {project.achievements.map((achievement, index) => (
-                              <li key={index} className="text-gray-300 text-sm flex items-center">
+                              <li key={index} className="text-gray-300 text-xs sm:text-sm flex items-center">
                                 <span className="text-[#BF092F] mr-2">•</span>
                                 {achievement}
                               </li>
@@ -225,7 +247,7 @@ const ProjectsSection = () => {
                     </div>
 
                     <div>
-                      <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-[#BF092F] underline hover:text-white transition-colors">
+                      <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-[#BF092F] underline hover:text-white transition-colors text-sm sm:text-base">
                         Check it out
                       </a>
                     </div>
@@ -372,7 +394,7 @@ function App() {
   return (
     <div className="bg-[#F5F1DC] min-h-screen font-['Raleway']">
       {/* Header */}
-      <header className="p-6 flex justify-between items-center">
+      <header className="p-4 sm:p-6 flex justify-between items-center">
         {/* <h1 className="text-3xl font-bold text-black font-['Raleway']">Mavis Hye Xuan Chia</h1> */}
         <nav className="space-x-8">
           <a href="#about" className="text-lg text-gray-700 hover:text-[#BF092F] transition-colors">About</a>
@@ -382,10 +404,10 @@ function App() {
       </header>
 
       {/* Hero & About Section */}
-      <section id="about" className="text-center py-20 px-6">
+      <section id="about" className="text-center py-20 px-4 sm:px-6">
         <SplitText
           text="Welcome"
-          className="text-5xl md:text-9xl font-bold text-black mb-4 mt-20"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold text-black mb-4 mt-20"
           delay={80}
           duration={0.8}
           ease="power3.out"
@@ -397,34 +419,34 @@ function App() {
           textAlign="center"
           tag="h2"
         />
-        <p className="text-2xl text-gray-600 mb-12">Full Stack Developer & Designer</p>
+        <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-gray-600 mb-8 sm:mb-12">Full Stack Developer & Designer</p>
         <div className="max-w-4xl mx-auto mb-16">
           {/* <h3 className="text-4xl font-bold text-black mb-10">About Me</h3> */}
-          <p className="text-xl text-gray-700 text-center leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 text-center leading-relaxed">
             I'm an international student from Malaysia doing my Bachelor's degree in Software Design based in Athlone. I specialize in full-stack web development . Beyond coding, I enjoy going outoors, baking and traveling.
           </p>
         </div>
 
         {/* Resume Buttons */}
-        <div className="flex justify-center space-x-4">
-          <a href="/assets/MavisHyeXuanChia_CV2025.pdf" download className="bg-[#BF092F] text-white px-8 py-4 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg text-lg font-semibold">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+          <a href="/assets/MavisHyeXuanChia_CV2025.pdf" download className="bg-[#BF092F] text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-base md:text-lg font-semibold">
             <span>Download CV</span>
           </a>
-          <a href="https://www.linkedin.com/in/mavis-hye-xuan-chia-a763a2237/" target="_blank" rel="noopener noreferrer" className="bg-[#0a66c2] text-white px-8 py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg text-lg font-semibold">
+          <a href="https://www.linkedin.com/in/mavis-hye-xuan-chia-a763a2237/" target="_blank" rel="noopener noreferrer" className="bg-[#0a66c2] text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-base md:text-lg font-semibold">
             <span>LinkedIn</span>
           </a>
-          <a href="https://github.com/mavischx" target="_blank" rel="noopener noreferrer" className="bg-black text-white px-8 py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg text-lg font-semibold">
+          <a href="https://github.com/mavischx" target="_blank" rel="noopener noreferrer" className="bg-black text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-base md:text-lg font-semibold">
             <span>GitHub</span>
           </a>
         </div>
       </section>
 
       {/* Timeline Section */}
-      <section className="py-8 px-6 bg-[#BF092F]">
+      <section className="py-8 px-4 sm:px-6 bg-[#BF092F]">
         <div className="max-w-5xl mx-auto">
           <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-4xl font-extrabold text-white"
+            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
           >
             My Journey
           </ScrollFloat>
@@ -438,28 +460,28 @@ function App() {
               <div className="flex items-center timeline-item">
                 <div className="w-1/2 pr-8 flex justify-end">
                   <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <h4 className="text-2xl font-bold text-black mb-2">Started University</h4>
-                    <p className="text-gray-700 text-lg">Bachelor student in BSC Software Design with AI and Cloud computing in Technological University of the Shannon, Athlone.
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">Started University</h4>
+                    <p className="text-gray-700 text-sm sm:text-base md:text-lg">Bachelor student in BSC Software Design with AI and Cloud computing in Technological University of the Shannon, Athlone.
                       <br />Coursework includes Software and Web development, Databases, REST Api, Agile methodologies, Machine Learning.
                     </p>
                   </div>
                 </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
                 <div className="w-1/2 pl-8 flex items-center">
-                  <div className="text-white text-xl font-bold">2022 - Present</div>
+                  <div className="text-white text-sm sm:text-base md:text-xl font-bold">2022 - Present</div>
                 </div>
               </div>
 
               {/* Summer Intern */}
               <div className="flex items-center timeline-item">
                 <div className="w-1/2 pr-8 flex justify-end items-center">
-                  <div className="text-white text-xl font-bold">June 2024 - August 2024</div>
+                  <div className="text-white text-sm sm:text-base md:text-xl font-bold">June 2024 - August 2024</div>
                 </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
                 <div className="w-1/2 pl-8">
                   <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <h4 className="text-2xl font-bold text-black mb-2">Summer Internship</h4>
-                    <p className="text-gray-700 text-lg">Summer intern in Ericsson, Athlone</p>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">Summer Internship</h4>
+                    <p className="text-gray-700 text-sm sm:text-base md:text-lg">Summer intern in Ericsson, Athlone</p>
                   </div>
                 </div>
               </div>
@@ -468,26 +490,26 @@ function App() {
               <div className="flex items-center timeline-item">
                 <div className="w-1/2 pr-8 flex justify-end">
                   <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <h4 className="text-2xl font-bold text-black mb-2">Internship</h4>
-                    <p className="text-gray-700 text-lg">Full-time internship position in Ericsson, Athlone</p>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">Internship</h4>
+                    <p className="text-gray-700 text-sm sm:text-base md:text-lg">Full-time internship position in Ericsson, Athlone</p>
                   </div>
                 </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
                 <div className="w-1/2 pl-8 flex items-center">
-                  <div className="text-white text-xl font-bold">January 2025 - August 2025</div>
+                  <div className="text-white text-sm sm:text-base md:text-xl font-bold">January 2025 - August 2025</div>
                 </div>
               </div>
 
               {/* Graduation */}
               <div className="flex items-center timeline-item">
                 <div className="w-1/2 pr-8 flex justify-end items-center">
-                  <div className="text-white text-xl font-bold">2026</div>
+                  <div className="text-white text-sm sm:text-base md:text-xl font-bold">2026</div>
                 </div>
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
                 <div className="w-1/2 pl-8">
                   <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-l-4 border-black">
-                    <h4 className="text-2xl font-bold text-black mb-2">Graduation</h4>
-                    <p className="text-gray-700 text-lg">Bachelor's degree completion.</p>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">Graduation</h4>
+                    <p className="text-gray-700 text-sm sm:text-base md:text-lg">Bachelor's degree completion.</p>
                   </div>
                 </div>
               </div>
@@ -497,12 +519,12 @@ function App() {
       </section>
 
       {/* Work Experience Section (reverted section bg, cards switched to white) */}
-      <section className="py-16 px-6 bg-[#F5F1DC]">
+      <section className="py-16 px-4 sm:px-6 bg-[#F5F1DC]">
         <div className="max-w-6xl mx-auto">
           {/* <h3 className="text-4xl font-bold text-black mb-16 text-center">Work Experience</h3> */}
           <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-4xl font-extrabold text-black"
+            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-black"
           >
             Work Experience
           </ScrollFloat>
@@ -534,16 +556,16 @@ function App() {
               <div key={index} className="work-card bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start">
                   <div className="flex-1">
-                    <h4 className="text-2xl font-semibold text-black mb-2">{job.title}</h4>
-                    <p className="text-[#BF092F] font-medium mb-3 text-lg">{job.company}</p>
-                    <ul className="text-gray-700 text-lg leading-relaxed list-disc ml-5 space-y-2">
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-black mb-2">{job.title}</h4>
+                    <p className="text-[#BF092F] font-medium mb-3 text-sm sm:text-base md:text-lg">{job.company}</p>
+                    <ul className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed list-disc ml-5 space-y-2">
                       {job.descriptionLines.map((line, i) => (
                         <li key={i}>{line}</li>
                       ))}
                     </ul>
                   </div>
                   <div className="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
-                    <span className="bg-[#BF092F] text-white px-4 py-2 rounded-full text-base font-semibold">{job.period}</span>
+                    <span className="bg-[#BF092F] text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-semibold">{job.period}</span>
                   </div>
                 </div>
               </div>
@@ -553,27 +575,125 @@ function App() {
       </section>
 
       {/* Skills Section */}
-      <section className="py-16 px-6 bg-[#F5F1DC]">
+      <section className="py-16 px-4 sm:px-6 bg-black">
         <div className="max-w-6xl mx-auto">
-          {/* <h3 className="text-4xl font-bold text-black mb-16 text-center">Skills & Technologies</h3> */}
           <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-4xl font-extrabold text-black"
+            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
           >
             Skills & Technologies
           </ScrollFloat>
-          <MagicBento
-            textAutoHide={true}
-            enableStars={true}
-            enableSpotlight={true}
-            enableBorderGlow={true}
-            enableTilt={true}
-            enableMagnetism={true}
-            clickEffect={true}
-            spotlightRadius={300}
-            particleCount={8}
-            glowColor="191, 9, 47"
-          />
+          
+          <div className="space-y-8">
+            {/* Frontend */}
+            <div>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 text-center">Frontend</h3>
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
+                {[
+                  { logo: reactLogo, name: 'React' },
+                  { logo: jsLogo, name: 'JavaScript' },
+                  { logo: tsLogo, name: 'TypeScript' },
+                  { logo: htmlLogo, name: 'HTML' },
+                  { logo: cssLogo, name: 'CSS' },
+                  { logo: bootstrapLogo, name: 'Bootstrap' }
+                ].map((skill, index) => (
+                  <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
+                        <img 
+                          src={skill.logo} 
+                          alt={skill.name} 
+                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                          onError={(e) => { e.currentTarget.style.display = 'none' }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-gray-700 text-center">{skill.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Backend */}
+            <div>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 text-center">Backend</h3>
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
+                {[
+                  { logo: nodeLogo, name: 'Node.js' },
+                  { logo: pythonLogo, name: 'Python' },
+                  { logo: javaLogo, name: 'Java' },
+                  { logo: flaskLogo, name: 'Flask' },
+                  { logo: springLogo, name: 'Spring' }
+                ].map((skill, index) => (
+                  <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
+                        <img 
+                          src={skill.logo} 
+                          alt={skill.name} 
+                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                          onError={(e) => { e.currentTarget.style.display = 'none' }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-gray-700 text-center">{skill.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Database */}
+            <div>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 text-center">Database</h3>
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
+                {[
+                  { logo: mysqlLogo, name: 'MySQL' },
+                  { logo: postgresLogo, name: 'PostgreSQL' },
+                  { logo: mongoLogo, name: 'MongoDB' },
+                  { logo: redisLogo, name: 'Redis' }
+                ].map((skill, index) => (
+                  <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
+                        <img 
+                          src={skill.logo} 
+                          alt={skill.name} 
+                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                          onError={(e) => { e.currentTarget.style.display = 'none' }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-gray-700 text-center">{skill.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tools */}
+            <div>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 text-center">Tools</h3>
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
+                {[
+                  { logo: dockerLogo, name: 'Docker' },
+                  { logo: gitLogo, name: 'Git' }
+                ].map((skill, index) => (
+                  <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
+                        <img 
+                          src={skill.logo} 
+                          alt={skill.name} 
+                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                          onError={(e) => { e.currentTarget.style.display = 'none' }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-gray-700 text-center">{skill.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -584,16 +704,16 @@ function App() {
       <ExtracurricularSection />
 
       {/* Contact Section (replaced with inline form — sends directly via Formspree) */}
-      <section id="contact" className="py-20 px-6 bg-black">
+      <section id="contact" className="py-20 px-4 sm:px-6 bg-black">
         <div className="max-w-4xl mx-auto">
           {/* <h3 className="text-4xl font-bold text-white mb-6 text-center">Get In Touch</h3> */}
                     <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-4xl font-extrabold text-white"
+            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
           >
             Get In Touch
           </ScrollFloat>
-          <p className="text-lg text-gray-300 mb-8 text-center">Write me a message below.</p>
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-8 text-center">Write me a message below.</p>
 
           <form onSubmit={handleSendEmail} className="bg-[#F5F1DC] p-6 rounded-lg max-w-2xl mx-auto">
             <div className="grid gap-4">
@@ -669,8 +789,8 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 text-center bg-black">
-        <p className="text-white text-lg">&copy; 2025 Mavis Chia Hye Xuan. All rights reserved.</p>
+      <footer className="py-12 px-4 sm:px-6 text-center bg-black">
+        <p className="text-white text-sm sm:text-base md:text-lg">&copy; 2025 Mavis Chia Hye Xuan. All rights reserved.</p>
       </footer>
 
       {/* PDF Modal */}
