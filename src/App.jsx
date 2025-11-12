@@ -28,6 +28,10 @@ import mongoLogo from './assets/mongodb.svg'
 import redisLogo from './assets/redis.svg'
 import dockerLogo from './assets/docker.svg'
 import gitLogo from './assets/git.svg'
+import phpLogo from './assets/php.png'
+import ericssonLogo from './assets/ericsson.png'
+// import unityLogo from './assets/unity.svg'
+// import csharpLogo from './assets/csharp.svg'
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
@@ -45,8 +49,8 @@ const ExtracurricularSection = () => {
       { name: "Codeium AI Coding Assistant Certification", link: "/certs/codeium.pdf" }
     ],
     leadership: [
-      { name: "Ireland International Ambassador (2023-24)", link: "/certs/ireland-ambassador.pdf" },
-      { name: "TUS Asian Society Vice President (2023-24)", link: "/certs/tus-society.pdf" }
+      { name: "Ireland International Ambassador (2023-24)", link: "https://blog.educationinireland.com/ireland-a-study-abroad-adventure/#more-247879" },
+      { name: "TUS Asian Society Vice President (2023-24)", link: "https://www.instagram.com/p/C5nmkccoRtb/?igsh=eGNyeHVzdDB2dDRjhttps://www.instagram.com/tus_athasoc/" }
     ],
     academic: [
       { name: "Dean's Honours List 2023/24", link: "/certs/deans-honours.pdf" },
@@ -58,36 +62,36 @@ const ExtracurricularSection = () => {
   }
 
   return (
-    <section className="py-16 px-4 sm:px-6 bg-[#F5F1DC]">
+    <section className="py-16 px-6 sm:px-8 md:px-12 lg:px-16 bg-[#F5F1DC]">
       <div className="max-w-6xl mx-auto">
         <ScrollFloat
           containerClassName="mb-8 text-center"
-          textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-black"
+          textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-black"
         >
           Achievements & Activities
         </ScrollFloat>
-                        {/* <ScrollFloat
+        {/* <ScrollFloat
             containerClassName="mb-8 text-center"
             textClassName="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white"
           >
             Get In Touch
           </ScrollFloat> */}
-        
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Object.entries(achievements).map(([category, items]) => (
             <div key={category} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
               <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 capitalize">
-                {category === 'certifications' ? 'Certifications' : 
-                 category === 'leadership' ? 'Leadership' :
-                 category === 'academic' ? 'Academic Excellence' :
-                 category === 'sports' ? 'Sports' : 'Competitions'}
+                {category === 'certifications' ? 'Certifications' :
+                  category === 'leadership' ? 'Leadership' :
+                    category === 'academic' ? 'Academic Excellence' :
+                      category === 'sports' ? 'Sports' : 'Competitions'}
               </h4>
               <ul className="space-y-3">
                 {items.map((item, index) => (
                   <li key={index}>
-                    <a 
-                      href={item.link} 
-                      target="_blank" 
+                    <a
+                      href={item.link}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium"
                     >
@@ -171,23 +175,23 @@ const ProjectsSection = () => {
   }
 
   return (
-    <section id="projects" className="py-16 px-4 sm:px-6 bg-[#BF092F]">
-      <div className="max-w-7xl mx-auto">
+    <section id="projects" className="py-16 px-6 sm:px-8 md:px-12 lg:px-16 bg-[#BF092F]">
+      <div className="max-w-5xl mx-auto">
         {/* <h3 className="text-4xl font-bold text-white mb-16 text-center">Projects</h3> */}
-                  <ScrollFloat
-            containerClassName="mb-8 text-center"
-            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
-          >
-            Projects
-          </ScrollFloat>
+        <ScrollFloat
+          containerClassName="mb-8 text-center"
+          textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-white"
+        >
+          Projects
+        </ScrollFloat>
         <div className="space-y-8">
           {resolvedProjects.map((project) => {
             const imgs = project.images || [];
             const idx = currentImageIndex[project.id] || 0;
             return (
               <div key={project.id} className="project-card bg-black rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div className="flex flex-col md:flex-row md:min-h-80">
-                  <div className="md:w-2/5 h-64 md:h-auto md:min-h-full bg-gray-700 relative overflow-hidden flex-shrink-0">
+                <div className="flex flex-col md:flex-row md:min-h-60">
+                  <div className="md:w-2/5 h-48 md:h-auto md:min-h-full bg-gray-700 relative overflow-hidden flex-shrink-0">
                     {imgs[idx] ? (
                       <img
                         src={imgs[idx]}
@@ -354,14 +358,14 @@ function App() {
     const workCards = Array.from(document.querySelectorAll('.work-card'));
     const projectCards = Array.from(document.querySelectorAll('.project-card'));
     const allItems = [...timelineItems, ...workCards, ...projectCards];
-    
+
     if (!allItems.length) return;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          
+
           if (el.classList.contains('timeline-item')) {
             const index = Math.max(0, timelineItems.indexOf(el));
             el.classList.add(index % 2 === 0 ? 'from-left' : 'from-right');
@@ -376,7 +380,7 @@ function App() {
             const delay = index * 500;
             setTimeout(() => el.classList.add('is-visible'), delay);
           }
-          
+
           observer.unobserve(el);
         }
       });
@@ -394,7 +398,7 @@ function App() {
   return (
     <div className="bg-[#F5F1DC] min-h-screen font-['Raleway']">
       {/* Header */}
-      <header className="p-4 sm:p-6 flex justify-between items-center">
+      <header className="p-6 sm:p-8 md:p-12 lg:p-16 flex justify-between items-center">
         {/* <h1 className="text-3xl font-bold text-black font-['Raleway']">Mavis Hye Xuan Chia</h1> */}
         <nav className="space-x-8">
           <a href="#about" className="text-lg text-gray-700 hover:text-[#BF092F] transition-colors">About</a>
@@ -404,49 +408,62 @@ function App() {
       </header>
 
       {/* Hero & About Section */}
-      <section id="about" className="text-center py-20 px-4 sm:px-6">
-        <SplitText
-          text="Welcome"
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold text-black mb-4 mt-20"
-          delay={80}
-          duration={0.8}
-          ease="power3.out"
-          splitType="chars"
-          from={{ opacity: 0, y: 50 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0.1}
-          rootMargin="-50px"
-          textAlign="center"
-          tag="h2"
-        />
-        <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-gray-600 mb-8 sm:mb-12">Full Stack Developer & Designer</p>
-        <div className="max-w-4xl mx-auto mb-16">
-          {/* <h3 className="text-4xl font-bold text-black mb-10">About Me</h3> */}
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 text-center leading-relaxed">
-            I'm an international student from Malaysia doing my Bachelor's degree in Software Design based in Athlone. I specialize in full-stack web development . Beyond coding, I enjoy going outoors, baking and traveling.
-          </p>
-        </div>
+      <section id="about" className="py-20 px-6 sm:px-8 md:px-12 lg:px-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Welcome Text */}
+            <div className="text-center lg:text-left">
+              <SplitText
+                text="Hey, I'm Mavis Chia"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-black leading-tight"
+                delay={80}
+                duration={0.8}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 50 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.1}
+                rootMargin="-50px"
+                textAlign="center"
+                tag="h2"
+              />
+            </div>
 
-        {/* Resume Buttons */}
-        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-          <a href="/assets/MavisHyeXuanChia_CV2025.pdf" download className="bg-[#BF092F] text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-base md:text-lg font-semibold">
-            <span>Download CV</span>
-          </a>
-          <a href="https://www.linkedin.com/in/mavis-hye-xuan-chia-a763a2237/" target="_blank" rel="noopener noreferrer" className="bg-[#0a66c2] text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-base md:text-lg font-semibold">
-            <span>LinkedIn</span>
-          </a>
-          <a href="https://github.com/mavischx" target="_blank" rel="noopener noreferrer" className="bg-black text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-base md:text-lg font-semibold">
-            <span>GitHub</span>
-          </a>
+            {/* Right Side - About Content */}
+            <div className="text-center lg:text-left">
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-6">Full Stack Developer & Designer</p>
+              <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed mb-8">
+                I came from <span className="text-[#BF092F] font-semibold">Malaysia</span> to <span className="text-[#BF092F]font-semibold">Ireland</span> in 2022 to pursue my university studies.
+                I’m currently completing my <span className="text-[#BF092F] font-semibold">Bachelor’s degree in Software Design</span> based in <span className="text-[#BF092F] font-semibold">Athlone</span>.
+                I enjoy <span className="text-[#BF092F] font-semibold">learning new things</span>, actively participating in <span className="text-[#BF092F] font-semibold">events</span>, and taking on <span className="text-[#BF092F] font-semibold">challenges</span>.
+                I specialize in <span className="text-[#BF092F] font-semibold">full stack web development</span> and have a strong interest in <span className="text-[#BF092F] font-semibold">AI integration</span>.
+                Beyond coding, I enjoy <span className="text-[#BF092F] font-semibold">outdoor activities</span>, <span className="text-[#BF092F] font-semibold">baking</span>, and <span className="text-[#BF092F] font-semibold">traveling</span>.
+              </p>
+
+
+              {/* Resume Buttons */}
+              <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 sm:gap-4">
+                <a href="/assets/MavisHyeXuanChia_CV2025.pdf" download className="bg-[#BF092F] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-lg text-sm sm:text-base font-semibold">
+                  <span>Download CV</span>
+                </a>
+                <a href="https://www.linkedin.com/in/mavis-hye-xuan-chia-a763a2237/" target="_blank" rel="noopener noreferrer" className="bg-[#0a66c2] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-lg text-sm sm:text-base font-semibold">
+                  <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/mavischx" target="_blank" rel="noopener noreferrer" className="bg-black text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-lg text-sm sm:text-base font-semibold">
+                  <span>GitHub</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Timeline Section */}
-      <section className="py-8 px-4 sm:px-6 bg-[#BF092F]">
+      <section className="py-8 px-6 sm:px-8 md:px-12 lg:px-16 bg-[#BF092F]">
         <div className="max-w-5xl mx-auto">
           <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
+            textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-white"
           >
             My Journey
           </ScrollFloat>
@@ -461,7 +478,8 @@ function App() {
                 <div className="w-1/2 pr-8 flex justify-end">
                   <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                     <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">Started University</h4>
-                    <p className="text-gray-700 text-sm sm:text-base md:text-lg">Bachelor student in BSC Software Design with AI and Cloud computing in Technological University of the Shannon, Athlone.
+                    <p className="text-gray-700 text-sm sm:text-base md:text-lg">Moved to Ireland from Malaysia for university.
+                      Bachelor student in BSC Software Design with AI and Cloud computing in Technological University of the Shannon, Athlone.
                       <br />Coursework includes Software and Web development, Databases, REST Api, Agile methodologies, Machine Learning.
                     </p>
                   </div>
@@ -519,12 +537,12 @@ function App() {
       </section>
 
       {/* Work Experience Section (reverted section bg, cards switched to white) */}
-      <section className="py-16 px-4 sm:px-6 bg-[#F5F1DC]">
+      <section className="py-16 px-6 sm:px-8 md:px-12 lg:px-16 bg-[#F5F1DC]">
         <div className="max-w-6xl mx-auto">
           {/* <h3 className="text-4xl font-bold text-black mb-16 text-center">Work Experience</h3> */}
           <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-black"
+            textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-black"
           >
             Work Experience
           </ScrollFloat>
@@ -556,7 +574,10 @@ function App() {
               <div key={index} className="work-card bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start">
                   <div className="flex-1">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-black mb-2">{job.title}</h4>
+                    <div className="flex items-center gap-3 mb-2">
+                      <img src={ericssonLogo} alt="Ericsson" className="h-6 sm:h-8 object-contain" />
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-black">{job.title}</h4>
+                    </div>
                     <p className="text-[#BF092F] font-medium mb-3 text-sm sm:text-base md:text-lg">{job.company}</p>
                     <ul className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed list-disc ml-5 space-y-2">
                       {job.descriptionLines.map((line, i) => (
@@ -575,15 +596,15 @@ function App() {
       </section>
 
       {/* Skills Section */}
-      <section className="py-16 px-4 sm:px-6 bg-black">
+      <section className="py-16 px-6 sm:px-8 md:px-12 lg:px-16 bg-black">
         <div className="max-w-6xl mx-auto">
           <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
+            textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-white"
           >
             Skills & Technologies
           </ScrollFloat>
-          
+
           <div className="space-y-8">
             {/* Frontend */}
             <div>
@@ -591,7 +612,6 @@ function App() {
               <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
                 {[
                   { logo: reactLogo, name: 'React' },
-                  { logo: jsLogo, name: 'JavaScript' },
                   { logo: tsLogo, name: 'TypeScript' },
                   { logo: htmlLogo, name: 'HTML' },
                   { logo: cssLogo, name: 'CSS' },
@@ -600,9 +620,9 @@ function App() {
                   <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="flex flex-col items-center">
                       <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
-                        <img 
-                          src={skill.logo} 
-                          alt={skill.name} 
+                        <img
+                          src={skill.logo}
+                          alt={skill.name}
                           className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
                           onError={(e) => { e.currentTarget.style.display = 'none' }}
                         />
@@ -619,70 +639,28 @@ function App() {
               <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 text-center">Backend</h3>
               <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
                 {[
+                  { logo: jsLogo, name: 'JavaScript' },
                   { logo: nodeLogo, name: 'Node.js' },
                   { logo: pythonLogo, name: 'Python' },
                   { logo: javaLogo, name: 'Java' },
+                  { logo: phpLogo, name: 'PHP' },
+                  // { logo: csharpLogo, name: 'C#' },
+                  // { logo: unityLogo, name: 'Unity' },
                   { logo: flaskLogo, name: 'Flask' },
-                  { logo: springLogo, name: 'Spring' }
-                ].map((skill, index) => (
-                  <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                    <div className="flex flex-col items-center">
-                      <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
-                        <img 
-                          src={skill.logo} 
-                          alt={skill.name} 
-                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                          onError={(e) => { e.currentTarget.style.display = 'none' }}
-                        />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 text-center">{skill.name}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Database */}
-            <div>
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 text-center">Database</h3>
-              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
-                {[
+                  { logo: springLogo, name: 'Spring' },
                   { logo: mysqlLogo, name: 'MySQL' },
                   { logo: postgresLogo, name: 'PostgreSQL' },
                   { logo: mongoLogo, name: 'MongoDB' },
-                  { logo: redisLogo, name: 'Redis' }
-                ].map((skill, index) => (
-                  <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                    <div className="flex flex-col items-center">
-                      <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
-                        <img 
-                          src={skill.logo} 
-                          alt={skill.name} 
-                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                          onError={(e) => { e.currentTarget.style.display = 'none' }}
-                        />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 text-center">{skill.name}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Tools */}
-            <div>
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 text-center">Tools</h3>
-              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
-                {[
+                  { logo: redisLogo, name: 'Redis' },
                   { logo: dockerLogo, name: 'Docker' },
                   { logo: gitLogo, name: 'Git' }
                 ].map((skill, index) => (
                   <div key={index} className="bg-white p-2 sm:p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="flex flex-col items-center">
                       <div className="flex items-center justify-center h-8 sm:h-10 mb-1">
-                        <img 
-                          src={skill.logo} 
-                          alt={skill.name} 
+                        <img
+                          src={skill.logo}
+                          alt={skill.name}
                           className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
                           onError={(e) => { e.currentTarget.style.display = 'none' }}
                         />
@@ -704,16 +682,16 @@ function App() {
       <ExtracurricularSection />
 
       {/* Contact Section (replaced with inline form — sends directly via Formspree) */}
-      <section id="contact" className="py-20 px-4 sm:px-6 bg-black">
+      <section id="contact" className="py-20 px-6 sm:px-8 md:px-12 lg:px-16 bg-black">
         <div className="max-w-4xl mx-auto">
           {/* <h3 className="text-4xl font-bold text-white mb-6 text-center">Get In Touch</h3> */}
-                    <ScrollFloat
+          <ScrollFloat
             containerClassName="mb-8 text-center"
-            textClassName="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white"
+            textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-white"
           >
             Get In Touch
           </ScrollFloat>
-          <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-8 text-center">Write me a message below.</p>
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-8 text-center">Write me a message below, let me know what you think about bread</p>
 
           <form onSubmit={handleSendEmail} className="bg-[#F5F1DC] p-6 rounded-lg max-w-2xl mx-auto">
             <div className="grid gap-4">
@@ -789,7 +767,7 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 text-center bg-black">
+      <footer className="py-12 px-6 sm:px-8 md:px-12 lg:px-16 text-center bg-black">
         <p className="text-white text-sm sm:text-base md:text-lg">&copy; 2025 Mavis Chia Hye Xuan. All rights reserved.</p>
       </footer>
 
