@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import knowYourCountries2Img from './assets/knowYourCountries2.png'
 import knowYourCountries3Img from './assets/knowYourCountries3.png'
-import knowYourCountries4Img from './assets/knowYourCountries4.png'
+import knowYourCountries4Img from './assets/knowYourCountries.png'
 import nasaAthlone1Img from './assets/nasaAthlone1.png'
 import nasaAthlone2Img from './assets/nasaAthlone2.png'
 import nasaAthlone3Img from './assets/nasaAthlone3.png'
@@ -30,31 +30,115 @@ import dockerLogo from './assets/docker.svg'
 import gitLogo from './assets/git.svg'
 import phpLogo from './assets/php.png'
 import ericssonLogo from './assets/ericsson.png'
-// import unityLogo from './assets/unity.svg'
-// import csharpLogo from './assets/csharp.svg'
+import oracleCert from './assets/oracle_cert.png'
+import codeiumCert from './assets/codeium_cert.png'
+import nasaCert2023 from './assets/nasaCert2023.png'
+import nasaCert2024 from './assets/nasaCert2024.png'
+import nasaCert2025 from './assets/nasaCert2025.png'
+import deans2024 from './assets/deans2024.jpeg'
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
 
+const CompetitionsSection = () => {
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const competitions = [
+    { name: "NASA Space Apps Challenge 2025 - 2nd Place", link: "/certs/nasa-2025.pdf", image: nasaCert2025 },
+    { name: "NASA Space Apps Challenge 2024 - Participant", link: "/certs/nasa-2024.pdf", image: nasaCert2024 },
+    { name: "NASA Space Apps Challenge 2023 - Participant", link: "/certs/nasa-2023.pdf", image: nasaCert2023 },
+    { name: "Cisco Jam 2024 - Winner", link: "/certs/nasa-2023.pdf" }
+  ]
+
+  const certifications = [
+    { name: "Oracle 1Z0-811 Java Certification", link: "/certs/oracle-java.pdf", image: oracleCert },
+    { name: "Codeium AI Coding Assistant Certification", link: "/certs/codeium.pdf", image: codeiumCert },
+    { name: "Dean's Honours List 2024", link: "/certs/deans-honours.pdf", image: deans2024 }
+  ]
+
+  const allImages = [...competitions.filter(c => c.image), ...certifications]
+
+  const openModal = (image, index) => {
+    setSelectedImage(image)
+    setCurrentIndex(index)
+  }
+
+  const nextImage = () => {
+    const nextIndex = (currentIndex + 1) % allImages.length
+    setCurrentIndex(nextIndex)
+    setSelectedImage(allImages[nextIndex])
+  }
+
+  const prevImage = () => {
+    const prevIndex = (currentIndex - 1 + allImages.length) % allImages.length
+    setCurrentIndex(prevIndex)
+    setSelectedImage(allImages[prevIndex])
+  }
+
+  return (
+    <section className="py-16 px-6 sm:px-8 md:px-12 lg:px-16 bg-black">
+      <div className="max-w-6xl mx-auto">
+        <ScrollFloat
+          containerClassName="mb-8 text-center"
+          textClassName="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white"
+        >
+          Competitions & Certifications
+        </ScrollFloat>
+        
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {allImages.map((item, index) => (
+            <div key={index} className="text-center cursor-pointer">
+              <img 
+                src={item.image} 
+                alt={item.name}
+                className="w-full rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
+                onClick={() => openModal(item, index)}
+                onError={(e) => { e.currentTarget.style.display = 'none' }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {selectedImage && (
+          <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4" onClick={() => setSelectedImage(null)}>
+            <div className="relative max-w-4xl max-h-full" onClick={(e) => e.stopPropagation()}>
+              <img 
+                src={selectedImage.image} 
+                alt={selectedImage.name}
+                className="max-w-full max-h-full object-contain rounded-lg"
+              />
+              <button
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-opacity-75 transition-all text-2xl"
+              >
+                ‹
+              </button>
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-opacity-75 transition-all text-2xl"
+              >
+                ›
+              </button>
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 bg-black bg-opacity-50 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-75 transition-all text-xl"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
 const ExtracurricularSection = () => {
-  const achievements = {
-    competitions: [
-      { name: "NASA Space Apps Challenge 2025 - 2nd Place", link: "/certs/nasa-2025.pdf" },
-      { name: "NASA Space Apps Challenge 2024 - Participant", link: "/certs/nasa-2024.pdf" },
-      { name: "NASA Space Apps Challenge 2023 - Participant", link: "/certs/nasa-2023.pdf" },
-      { name: "Cisco Jam 2024 - Winner", link: "/certs/nasa-2023.pdf" }
-    ],
-    certifications: [
-      { name: "Oracle 1Z0-811 Java Certification", link: "/certs/oracle-java.pdf" },
-      { name: "Codeium AI Coding Assistant Certification", link: "/certs/codeium.pdf" }
-    ],
+  const activities = {
     leadership: [
       { name: "Ireland International Ambassador (2023-24)", link: "https://blog.educationinireland.com/ireland-a-study-abroad-adventure/#more-247879" },
       { name: "TUS Asian Society Vice President (2023-24)", link: "https://www.instagram.com/p/C5nmkccoRtb/?igsh=eGNyeHVzdDB2dDRjhttps://www.instagram.com/tus_athasoc/" }
-    ],
-    academic: [
-      { name: "Dean's Honours List 2023/24", link: "/certs/deans-honours.pdf" },
-      { name: "Dean's Honours List 2024/25", link: "/certs/deans-honours.pdf" }
     ],
     sports: [
       { name: "TUS Badminton College Team (2022-2024)", link: "/certs/badminton-team.pdf" }
@@ -66,32 +150,25 @@ const ExtracurricularSection = () => {
       <div className="max-w-6xl mx-auto">
         <ScrollFloat
           containerClassName="mb-8 text-center"
-          textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-black"
+          textClassName="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black"
         >
-          Achievements & Activities
+          Extracurricular Activities
         </ScrollFloat>
-        {/* <ScrollFloat
-            containerClassName="mb-8 text-center"
-            textClassName="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white"
-          >
-            Get In Touch
-          </ScrollFloat> */}
-
+        
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(achievements).map(([category, items]) => (
+          {Object.entries(activities).map(([category, items]) => (
             <div key={category} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
               <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 capitalize">
-                {category === 'certifications' ? 'Certifications' :
-                  category === 'leadership' ? 'Leadership' :
-                    category === 'academic' ? 'Academic Excellence' :
-                      category === 'sports' ? 'Sports' : 'Competitions'}
+                {category === 'leadership' ? 'Leadership' :
+                 category === 'academic' ? 'Academic Excellence' :
+                 category === 'sports' ? 'Sports' : category}
               </h4>
               <ul className="space-y-3">
                 {items.map((item, index) => (
                   <li key={index}>
-                    <a
-                      href={item.link}
-                      target="_blank"
+                    <a 
+                      href={item.link} 
+                      target="_blank" 
                       rel="noopener noreferrer"
                       className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium"
                     >
@@ -176,7 +253,7 @@ const ProjectsSection = () => {
 
   return (
     <section id="projects" className="py-16 px-6 sm:px-8 md:px-12 lg:px-16 bg-[#BF092F]">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* <h3 className="text-4xl font-bold text-white mb-16 text-center">Projects</h3> */}
         <ScrollFloat
           containerClassName="mb-8 text-center"
@@ -414,7 +491,7 @@ function App() {
             {/* Left Side - Welcome Text */}
             <div className="text-center lg:text-left">
               <SplitText
-                text="Hey, I'm Mavis Chia"
+                text="Hey, I'm Mavis :)"
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-black leading-tight"
                 delay={80}
                 duration={0.8}
@@ -433,7 +510,7 @@ function App() {
             <div className="text-center lg:text-left">
               <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-6">Full Stack Developer & Designer</p>
               <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed mb-8">
-                I came from <span className="text-[#BF092F] font-semibold">Malaysia</span> to <span className="text-[#BF092F]font-semibold">Ireland</span> in 2022 to pursue my university studies.
+                Hi! I'm Mavis Hye Xuan Chia, came from <span className="text-[#BF092F] font-semibold">Malaysia</span> to <span className="text-[#BF092F]font-semibold">Ireland</span> in 2022 to pursue my university studies.
                 I’m currently completing my <span className="text-[#BF092F] font-semibold">Bachelor’s degree in Software Design</span> based in <span className="text-[#BF092F] font-semibold">Athlone</span>.
                 I enjoy <span className="text-[#BF092F] font-semibold">learning new things</span>, actively participating in <span className="text-[#BF092F] font-semibold">events</span>, and taking on <span className="text-[#BF092F] font-semibold">challenges</span>.
                 I specialize in <span className="text-[#BF092F] font-semibold">full stack web development</span> and have a strong interest in <span className="text-[#BF092F] font-semibold">AI integration</span>.
@@ -526,7 +603,7 @@ function App() {
                 <div className="relative z-10 w-4 h-4 bg-black rounded-full border-4 border-white shadow-lg"></div>
                 <div className="w-1/2 pl-8">
                   <div className="bg-white p-6 rounded-lg shadow-lg max-w-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-l-4 border-black">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">Graduation</h4>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2">Graduation!</h4>
                     <p className="text-gray-700 text-sm sm:text-base md:text-lg">Bachelor's degree completion.</p>
                   </div>
                 </div>
@@ -554,21 +631,23 @@ function App() {
                 company: "Ericsson",
                 period: "January 2025 – August 2025",
                 descriptionLines: [
-                  "Transitioned a legacy monolithic system to a microservice architecture, accelerating feature rollout by ~85% using Python, TypeScript, Redis, and Docker.",
-                  "Automated software modelling and document generation pipelines (docxtpl, StringTemplate, custom Python workflows), reducing document processing time from 27 days to 3 days.",
-                  "Developed an internal RAG-based chatbot integrating Redis, Neo4j, and a custom vector store for knowledge retrieval.",
-                  "Collaborated in an Agile environment with sprint planning, code reviews, and Git-based workflows to ensure iterative delivery."
+                  "Transitioned a <span class='text-[#BF092F] font-semibold'>legacy monolithic system</span> to a <span class='text-[#BF092F] font-semibold'>microservice architecture</span>, accelerating feature rollout by <span class='text-[#BF092F] font-semibold'>~85%</span> using <span class='text-[#BF092F] font-semibold'>Python</span>, <span class='text-[#BF092F] font-semibold'>TypeScript</span>, <span class='text-[#BF092F] font-semibold'>Redis</span>, and <span class='text-[#BF092F] font-semibold'>Docker</span>.",
+                  "Automated <span class='text-[#BF092F] font-semibold'>software modelling</span> and <span class='text-[#BF092F] font-semibold'>document generation pipelines</span> (<span class='text-[#BF092F] font-semibold'>docxtpl</span>, <span class='text-[#BF092F] font-semibold'>StringTemplate</span>, custom <span class='text-[#BF092F] font-semibold'>Python workflows</span>), reducing document processing time from <span class='text-[#BF092F] font-semibold'>27 days to 3 days</span>.",
+                  "Developed an internal <span class='text-[#BF092F] font-semibold'>RAG-based chatbot</span> integrating <span class='text-[#BF092F] font-semibold'>Redis</span>, <span class='text-[#BF092F] font-semibold'>Neo4j</span>, and a <span class='text-[#BF092F] font-semibold'>custom vector store</span> for knowledge retrieval.",
+                  "Collaborated in an <span class='text-[#BF092F] font-semibold'>Agile environment</span> with <span class='text-[#BF092F] font-semibold'>sprint planning</span>, <span class='text-[#BF092F] font-semibold'>code reviews</span>, and <span class='text-[#BF092F] font-semibold'>Git-based workflows</span> to ensure iterative delivery."
                 ]
+
               },
               {
                 title: "Summer Intern",
                 company: "Ericsson",
                 period: "June 2024 – August 2024",
                 descriptionLines: [
-                  "Built a transition-year program website as a guide, collaborating with a cross-functional team using Python, HTML and CSS.",
-                  "Authored comprehensive documentation for project files to improve maintainability for future developers.",
-                  "Developed a 3D VR office simulator using Unity and C# for Ericsson's 50th anniversary, engaging 100+ employees in interactive sessions."
+                  "Built a <span class='text-[#BF092F] font-semibold'>transition-year program website</span> as a guide, collaborating with a <span class='text-[#BF092F] font-semibold'>cross-functional team</span> using <span class='text-[#BF092F] font-semibold'>Python</span>, <span class='text-[#BF092F] font-semibold'>HTML</span> and <span class='text-[#BF092F] font-semibold'>CSS</span>.",
+                  "Authored <span class='text-[#BF092F] font-semibold'>comprehensive documentation</span> for project files to improve <span class='text-[#BF092F] font-semibold'>maintainability</span> for future developers.",
+                  "Developed a <span class='text-[#BF092F] font-semibold'>3D VR office simulator</span> using <span class='text-[#BF092F] font-semibold'>Unity</span> and <span class='text-[#BF092F] font-semibold'>C#</span> for <span class='text-[#BF092F] font-semibold'>Ericsson's 50th anniversary</span>, engaging <span class='text-[#BF092F] font-semibold'>100+ employees</span> in interactive sessions."
                 ]
+
               }
             ].map((job, index) => (
               <div key={index} className="work-card bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -580,9 +659,13 @@ function App() {
                     </div>
                     <p className="text-[#BF092F] font-medium mb-3 text-sm sm:text-base md:text-lg">{job.company}</p>
                     <ul className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed list-disc ml-5 space-y-2">
-                      {job.descriptionLines.map((line, i) => (
+                      {/* {job.descriptionLines.map((line, i) => (
                         <li key={i}>{line}</li>
+                      ))} */}
+                      {job.descriptionLines.map((line, index) => (
+                        <li key={index} dangerouslySetInnerHTML={{ __html: line }} />
                       ))}
+
                     </ul>
                   </div>
                   <div className="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
@@ -677,6 +760,9 @@ function App() {
 
       {/* Projects Section */}
       <ProjectsSection />
+
+      {/* Competitions & Certifications Section */}
+      <CompetitionsSection />
 
       {/* Extracurricular Section */}
       <ExtracurricularSection />
