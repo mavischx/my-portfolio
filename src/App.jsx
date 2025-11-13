@@ -44,20 +44,13 @@ const CompetitionsSection = () => {
   const [selectedImage, setSelectedImage] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const competitions = [
-    { name: "NASA Space Apps Challenge 2025 - 2nd Place", link: "/certs/nasa-2025.pdf", image: nasaCert2025 },
-    { name: "NASA Space Apps Challenge 2024 - Participant", link: "/certs/nasa-2024.pdf", image: nasaCert2024 },
-    { name: "NASA Space Apps Challenge 2023 - Participant", link: "/certs/nasa-2023.pdf", image: nasaCert2023 },
-    { name: "Cisco Jam 2024 - Winner", link: "/certs/nasa-2023.pdf" }
-  ]
-
   const certifications = [
     { name: "Oracle 1Z0-811 Java Certification", link: "/certs/oracle-java.pdf", image: oracleCert },
     { name: "Codeium AI Coding Assistant Certification", link: "/certs/codeium.pdf", image: codeiumCert },
     { name: "Dean's Honours List 2024", link: "/certs/deans-honours.pdf", image: deans2024 }
   ]
 
-  const allImages = [...competitions.filter(c => c.image), ...certifications]
+  const allImages = certifications
 
   const openModal = (image, index) => {
     setSelectedImage(image)
@@ -83,10 +76,10 @@ const CompetitionsSection = () => {
           containerClassName="mb-8 text-center"
           textClassName="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white"
         >
-          Competitions & Certifications
+          Certifications
         </ScrollFloat>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-3 gap-6 justify-items-center">
           {allImages.map((item, index) => (
             <div key={index} className="text-center cursor-pointer">
               <img 
@@ -96,6 +89,7 @@ const CompetitionsSection = () => {
                 onClick={() => openModal(item, index)}
                 onError={(e) => { e.currentTarget.style.display = 'none' }}
               />
+              <p className="text-white text-xs mt-2 font-medium">{item.name}</p>
             </div>
           ))}
         </div>
@@ -135,14 +129,42 @@ const CompetitionsSection = () => {
 }
 
 const ExtracurricularSection = () => {
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
   const activities = {
+    hackathons: [
+      { name: "NASA Space Apps Challenge 2025 - 2nd Place", link: "/certs/nasa-2025.pdf", image: nasaCert2025 },
+      { name: "NASA Space Apps Challenge 2024 - Participant", link: "/certs/nasa-2024.pdf", image: nasaCert2024 },
+      { name: "NASA Space Apps Challenge 2023 - Participant", link: "/certs/nasa-2023.pdf", image: nasaCert2023 },
+      // { name: "Cisco Jam 2024 - Winner", link: "/certs/cisco-jam.pdf" }
+    ],
     leadership: [
-      { name: "Ireland International Ambassador (2023-24)", link: "https://blog.educationinireland.com/ireland-a-study-abroad-adventure/#more-247879" },
-      { name: "TUS Asian Society Vice President (2023-24)", link: "https://www.instagram.com/p/C5nmkccoRtb/?igsh=eGNyeHVzdDB2dDRjhttps://www.instagram.com/tus_athasoc/" }
+      { name: "Education Ireland Student Ambassador (2023-2024)", blogLink: "https://blog.educationinireland.com/ireland-a-study-abroad-adventure/#more-247879" },
+      { name: "TUS Asian Society Vice President (2023-2024)", instagramLink: "https://www.instagram.com/p/C5nmkccoRtb/?igsh=eGNyeHVzdDB2dDRjhttps://www.instagram.com/tus_athasoc/" }
     ],
     sports: [
       { name: "TUS Badminton College Team (2022-2024)", link: "/certs/badminton-team.pdf" }
     ]
+  }
+
+  const allImages = activities.hackathons.filter(h => h.image)
+
+  const openModal = (image, index) => {
+    setSelectedImage(image)
+    setCurrentIndex(index)
+  }
+
+  const nextImage = () => {
+    const nextIndex = (currentIndex + 1) % allImages.length
+    setCurrentIndex(nextIndex)
+    setSelectedImage(allImages[nextIndex])
+  }
+
+  const prevImage = () => {
+    const prevIndex = (currentIndex - 1 + allImages.length) % allImages.length
+    setCurrentIndex(prevIndex)
+    setSelectedImage(allImages[prevIndex])
   }
 
   return (
@@ -155,31 +177,130 @@ const ExtracurricularSection = () => {
           Extracurricular Activities
         </ScrollFloat>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="space-y-8">
           {Object.entries(activities).map(([category, items]) => (
-            <div key={category} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 capitalize">
-                {category === 'leadership' ? 'Leadership' :
-                 category === 'academic' ? 'Academic Excellence' :
-                 category === 'sports' ? 'Sports' : category}
-              </h4>
-              <ul className="space-y-3">
-                {items.map((item, index) => (
-                  <li key={index}>
-                    <a 
-                      href={item.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            <div key={category}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black capitalize">
+                  {category === 'hackathons' ? 'Hackathons' :
+                   category === 'leadership' ? 'Leadership' :
+                   category === 'sports' ? 'Sports' : category}
+                </h3>
+                {/* {category === 'leadership' && (
+                  <a 
+                    href="https://blog.educationinireland.com/ireland-a-study-abroad-adventure/#more-247879" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
+                  >
+                    Read my blog
+                  </a>
+                )} */}
+              </div>
+              
+              {category === 'hackathons' ? (
+                <div className="grid grid-cols-3 gap-4 justify-items-center">
+                  {items.map((item, index) => (
+                    <div key={index} className="text-center">
+                      {item.image ? (
+                        <div className="cursor-pointer" onClick={() => openModal(item, allImages.findIndex(img => img.name === item.name))}>
+                          <img 
+                            src={item.image} 
+                            alt={item.name}
+                            className="w-full rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
+                            onError={(e) => { e.currentTarget.style.display = 'none' }}
+                          />
+                          <p className="text-black text-xs mt-2 font-medium">{item.name}</p>
+                        </div>
+                      ) : (
+                        <div className="bg-white p-4 rounded-lg shadow-md">
+                          <a 
+                            href={item.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
+                          >
+                            {item.name}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white p-6 rounded-lg shadow-lg">
+                  <ul className="space-y-3">
+                    {items.map((item, index) => (
+                      <li key={index} className="flex items-center justify-between">
+                        <span className="text-black font-medium">{item.name}</span>
+                        {item.blogLink && (
+                          <a 
+                            href={item.blogLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
+                          >
+                            Read my blog
+                          </a>
+                        )}
+                        {item.instagramLink && (
+                          <a 
+                            href={item.instagramLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
+                          >
+                            Check it out
+                          </a>
+                        )}
+                        {/* {item.link && (
+                          <a 
+                            href={item.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
+                          >
+                            View
+                          </a>
+                        )} */}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           ))}
         </div>
+
+        {selectedImage && (
+          <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4" onClick={() => setSelectedImage(null)}>
+            <div className="relative max-w-4xl max-h-full" onClick={(e) => e.stopPropagation()}>
+              <img 
+                src={selectedImage.image} 
+                alt={selectedImage.name}
+                className="max-w-full max-h-full object-contain rounded-lg"
+              />
+              <button
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-opacity-75 transition-all text-2xl"
+              >
+                ‹
+              </button>
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-opacity-75 transition-all text-2xl"
+              >
+                ›
+              </button>
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 bg-black bg-opacity-50 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-75 transition-all text-xl"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )
