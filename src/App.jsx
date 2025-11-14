@@ -10,6 +10,9 @@ import nasaAthlone3Img from './assets/nasaAthlone3.png'
 import PAM1 from './assets/PAM1.png'
 import PAM2 from './assets/PAM2.png'
 import PAM3 from './assets/PAM3.png'
+import orrery1 from './assets/orrery1.png'
+import orrery2 from './assets/orrery2.png'
+import orrery3 from './assets/orrery3.png'
 import ScrollFloat from './ScrollFloat';
 import reactLogo from './assets/react.svg'
 import jsLogo from './assets/javascript.svg'
@@ -316,6 +319,8 @@ const ExtracurricularSection = () => {
 
 const ProjectsSection = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState({})
+  const [currentPage, setCurrentPage] = useState(0)
+  const projectsPerPage = 3
 
   const projects = [
     {
@@ -348,6 +353,16 @@ const ProjectsSection = () => {
       achievements: ["Real-time pollen forecasting", "Interactive heatmap visualization", "Machine learning predictions"],
       githubLink: "https://tusmm-my.sharepoint.com/:f:/g/personal/a00303784_student_tus_ie/EssSzmyR9I9Ok47ofWcmiqoBV4dABGY-5zlAH3bMIAQNAQ?e=fbB2ol"
     },
+        {
+      id: 4,
+      title: "Orrery Web App",
+      category: "Web Development, 3D Visualization",
+      images: [orrery1, orrery2, orrery3],
+      shortDesc: "JavaScript, HTML, CSS, Three.js",
+      fullDesc: "The Interactive Orrery Web App is a virtual model of the solar system that displays celestial bodies such as planets, Near-Earth Asteroids (NEAs), Near-Earth Comets, and Potentially Hazardous Asteroids (PHAs). Using Three.js, the app provides an engaging way to explore and learn about these celestial objects.",
+      achievements: ["Interactive 3D visualization of planets and asteroids.", "Real-time simulation of celestial orbits.", "Clickable celestial bodies that display information."],
+      githubLink: "astro-nerds.vercel.app"
+    }
   ];
 
   // Resolve images to absolute paths (supports imported modules and public folder strings)
@@ -380,24 +395,44 @@ const ProjectsSection = () => {
     }));
   }
 
+  const totalPages = Math.ceil(resolvedProjects.length / projectsPerPage)
+  const currentProjects = resolvedProjects.slice(currentPage * projectsPerPage, (currentPage + 1) * projectsPerPage)
+
+  const nextPage = () => {
+    setCurrentPage(prev => (prev + 1) % totalPages)
+  }
+
+  const prevPage = () => {
+    setCurrentPage(prev => (prev - 1 + totalPages) % totalPages)
+  }
+
   return (
     <section id="projects" className="py-16 px-6 sm:px-8 md:px-12 lg:px-16 bg-[#BF092F]">
       <div className="max-w-7xl mx-auto">
-        {/* <h3 className="text-4xl font-bold text-white mb-16 text-center">Projects</h3> */}
         <ScrollFloat
           containerClassName="mb-8 text-center"
           textClassName="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-white"
         >
           Projects
         </ScrollFloat>
-        <div className="space-y-8">
-          {resolvedProjects.map((project) => {
-            const imgs = project.images || [];
-            const idx = currentImageIndex[project.id] || 0;
-            return (
-              <div key={project.id} className="project-card bg-black rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div className="flex flex-col md:flex-row md:min-h-60">
-                  <div className="md:w-2/5 h-48 md:h-auto md:min-h-full bg-gray-700 relative overflow-hidden flex-shrink-0">
+        <div className="relative">
+          <div className="space-y-8 relative">
+            {currentProjects.map((project, index) => {
+              const imgs = project.images || [];
+              const idx = currentImageIndex[project.id] || 0;
+              return (
+                <div 
+                  key={`${project.id}-${currentPage}`}
+                  className="project-card bg-black rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                  style={{
+                    position: 'relative',
+                    zIndex: currentProjects.length - index,
+                    marginTop: index > 0 ? '-2rem' : '0',
+                    transform: `translateY(${index * 8}px)`
+                  }}
+                >
+                  <div className="flex flex-col md:flex-row md:min-h-60">
+                    <div className="md:w-2/5 h-48 md:h-auto md:min-h-full bg-gray-700 relative overflow-hidden flex-shrink-0">
                     {imgs[idx] ? (
                       <img
                         src={imgs[idx]}
@@ -462,10 +497,31 @@ const ProjectsSection = () => {
                       </a>
                     </div>
                   </div>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+          
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center mt-8 space-x-4">
+              <button
+                onClick={prevPage}
+                className="bg-black bg-opacity-50 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-opacity-75 transition-all text-2xl"
+              >
+                ‹
+              </button>
+              <span className="text-white font-medium">
+                {currentPage + 1} / {totalPages}
+              </span>
+              <button
+                onClick={nextPage}
+                className="bg-black bg-opacity-50 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-opacity-75 transition-all text-2xl"
+              >
+                ›
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -545,14 +601,14 @@ function App() {
           transform: translateY(30px) scale(0.98); 
           transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.9, 0.2, 1); 
         }
-        .work-card, .project-card { 
+        .work-card { 
           opacity: 0; 
           transform: translateY(50px) scale(0.95); 
           transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
         }
         .timeline-item.from-left { transform: translateX(-60px) translateY(18px) scale(0.98); }
         .timeline-item.from-right { transform: translateX(60px) translateY(18px) scale(0.98); }
-        .timeline-item.is-visible, .work-card.is-visible, .project-card.is-visible { 
+        .timeline-item.is-visible, .work-card.is-visible { 
           opacity: 1; 
           transform: translateX(0) translateY(0) scale(1); 
         }
@@ -562,8 +618,7 @@ function App() {
 
     const timelineItems = Array.from(document.querySelectorAll('.timeline-item'));
     const workCards = Array.from(document.querySelectorAll('.work-card'));
-    const projectCards = Array.from(document.querySelectorAll('.project-card'));
-    const allItems = [...timelineItems, ...workCards, ...projectCards];
+    const allItems = [...timelineItems, ...workCards];
 
     if (!allItems.length) return;
 
@@ -580,10 +635,6 @@ function App() {
           } else if (el.classList.contains('work-card')) {
             const index = Math.max(0, workCards.indexOf(el));
             const delay = index * 400;
-            setTimeout(() => el.classList.add('is-visible'), delay);
-          } else if (el.classList.contains('project-card')) {
-            const index = Math.max(0, projectCards.indexOf(el));
-            const delay = index * 500;
             setTimeout(() => el.classList.add('is-visible'), delay);
           }
 
