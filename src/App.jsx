@@ -641,7 +641,7 @@ function App() {
 
               {/* Resume Buttons */}
               <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 sm:gap-4">
-                <a href="../public/MavisHyeXuanChia_CV2025.pdf" download className="bg-[#BF092F] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-lg text-sm sm:text-base font-semibold">
+                <a href="/MavisHyeXuanChia_CV2025.pdf" download className="bg-[#BF092F] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-lg text-sm sm:text-base font-semibold">
                   <span>Download CV</span>
                 </a>
                 <a href="https://www.linkedin.com/in/mavis-hye-xuan-chia-a763a2237/" target="_blank" rel="noopener noreferrer" className="bg-[#0a66c2] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-lg text-sm sm:text-base font-semibold">
