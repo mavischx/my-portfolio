@@ -134,10 +134,10 @@ const ExtracurricularSection = () => {
 
   const activities = {
     hackathons: [
-      { name: "NASA Space Apps Challenge 2025 - 2nd Place", link: "/certs/nasa-2025.pdf", image: nasaCert2025 },
-      { name: "NASA Space Apps Challenge 2024 - Participant", link: "/certs/nasa-2024.pdf", image: nasaCert2024 },
-      { name: "NASA Space Apps Challenge 2023 - Participant", link: "/certs/nasa-2023.pdf", image: nasaCert2023 },
-      // { name: "Cisco Jam 2024 - Winner", link: "/certs/cisco-jam.pdf" }
+      { name: "NASA Space Apps Challenge 2025 - 2nd Place", link: "https://github.com/wiktorial2003/PAM", image: nasaCert2025 },
+      { name: "NASA Space Apps Challenge 2024 - Participant", link: "https://github.com/mavischx/astro-nerds", image: nasaCert2024 },
+      { name: "NASA Space Apps Challenge 2023 - Participant", link: "https://github.com/mavischx/Marketplace", image: nasaCert2023 },
+      { name: "Cisco Jam 2024 - Winner" }
     ],
     leadership: [
       { name: "Education Ireland Student Ambassador (2023-2024)", blogLink: "https://blog.educationinireland.com/ireland-a-study-abroad-adventure/#more-247879" },
@@ -199,10 +199,10 @@ const ExtracurricularSection = () => {
               </div>
               
               {category === 'hackathons' ? (
-                <div className="grid grid-cols-3 gap-4 justify-items-center">
-                  {items.map((item, index) => (
-                    <div key={index} className="text-center">
-                      {item.image ? (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-3 gap-4 justify-items-center">
+                    {items.filter(item => item.image).map((item, index) => (
+                      <div key={index} className="text-center">
                         <div className="cursor-pointer" onClick={() => openModal(item, allImages.findIndex(img => img.name === item.name))}>
                           <img 
                             src={item.image} 
@@ -212,20 +212,28 @@ const ExtracurricularSection = () => {
                           />
                           <p className="text-black text-xs mt-2 font-medium">{item.name}</p>
                         </div>
-                      ) : (
-                        <div className="bg-white p-4 rounded-lg shadow-md">
-                          <a 
-                            href={item.link} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
-                          >
-                            {item.name}
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="bg-white p-6 rounded-lg shadow-lg">
+                    <ul className="space-y-3">
+                      {items.map((item, index) => (
+                        <li key={index} className="flex items-center justify-between">
+                          <span className="text-black font-medium">{item.name}</span>
+                          {item.link && (
+                            <a 
+                              href={item.link} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
+                            >
+                              View project on github
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               ) : (
                 <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -250,7 +258,7 @@ const ExtracurricularSection = () => {
                             rel="noopener noreferrer"
                             className="text-[#BF092F] hover:text-black transition-colors duration-200 underline hover:no-underline font-medium text-sm"
                           >
-                            Check it out
+                            Check out our Insta
                           </a>
                         )}
                         {/* {item.link && (
